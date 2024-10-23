@@ -9,6 +9,7 @@ import (
 type ProductsRepository interface {
 	GetAllProducts() ([]entity.Products, error)
 	GetProductByID(id int) (entity.Products, error)
+	GetProductByName(value string) ([]entity.Products, error)
 	CreateProduct(product entity.Products) (entity.Products, error)
 	UpdateProduct(product entity.Products) (entity.Products, error)
 	DeleteProduct(product entity.Products) (entity.Products, error)
@@ -40,6 +41,16 @@ func (product_repo *productsRepository) GetProductByID(id int) (entity.Products,
 	}
 
 	return product, nil
+}
+
+func (product_repo *productsRepository) GetProductByName(value string) ([]entity.Products, error) {
+	var products []entity.Products
+	err := product_repo.db.Where("name LIKE ?", "%"+value+"%").Find(&products).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return products, nil
 }
 
 func (product_repo *productsRepository) CreateProduct(product entity.Products) (entity.Products, error) {

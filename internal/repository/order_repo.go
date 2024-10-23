@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"commercium/internal/entity"
 
 	"gorm.io/gorm"
@@ -9,6 +11,7 @@ import (
 type OrdersRepository interface {
 	GetAllOrders() ([]entity.Orders, error)
 	GetOrderByID(id int) (entity.Orders, error)
+	GetOrderByDate(from, to time.Time) ([]entity.Orders, error)
 	CreateOrder(order entity.Orders) (entity.Orders, error)
 	UpdateOrder(order entity.Orders) (entity.Orders, error)
 	DeleteOrder(order entity.Orders) (entity.Orders, error)
@@ -40,6 +43,16 @@ func (order_repo *ordersRepository) GetOrderByID(id int) (entity.Orders, error) 
 	}
 
 	return order, nil
+}
+
+func (order_repo *ordersRepository) GetOrderByDate(from, to time.Time) ([]entity.Orders, error) {
+	var orders []entity.Orders
+	err := order_repo.db.Where("created_at BETWEEN ? AND ?", from, to).Find(&orders).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return orders, nil
 }
 
 func (order_repo *ordersRepository) CreateOrder(order entity.Orders) (entity.Orders, error) {

@@ -11,9 +11,10 @@ import (
 type ProductsService interface {
 	GetAllProducts() ([]entity.Products, error)
 	GetProductByID(id int) (entity.Products, error)
+	GetProductByName(value string) ([]entity.Products, error)
 	CreateProduct(product entity.Products) (entity.Products, error)
-	UpdateProduct(product entity.Products) (entity.Products, error)
-	DeleteProduct(product entity.Products) (entity.Products, error)
+	UpdateProduct(id int, productNew entity.Products) (entity.Products, error)
+	DeleteProduct(id int) (entity.Products, error)
 }
 
 type productsService struct {
@@ -30,6 +31,14 @@ func (product_serv *productsService) GetAllProducts() ([]entity.Products, error)
 
 func (product_serv *productsService) GetProductByID(id int) (entity.Products, error) {
 	return product_serv.productsRepository.GetProductByID(id)
+}
+
+func (product_serv *productsService) GetProductByName(value string) ([]entity.Products, error) {
+	if value == "" {
+		return nil, errors.New("Parameter cannot be blank")
+	}
+
+	return product_serv.productsRepository.GetProductByName(value)
 }
 
 func (product_serv *productsService) CreateProduct(product entity.Products) (entity.Products, error) {

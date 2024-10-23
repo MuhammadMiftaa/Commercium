@@ -13,7 +13,7 @@ type UsersService interface {
 	GetUserByID(id int) (entity.Users, error)
 	GetUserByUsername(username string) (entity.Users, error)
 	CreateUser(user entity.Users) (entity.Users, error)
-	UpdateUser(id int, user entity.Users) (entity.Users, error)
+	UpdateUser(id int, userNew entity.Users) (entity.Users, error)
 	DeleteUser(id int) (entity.Users, error)
 }
 

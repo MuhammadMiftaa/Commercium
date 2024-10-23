@@ -14,6 +14,7 @@ func main() {
 	config.Migrate(db, &entity.Users{}, &entity.Products{}, &entity.Orders{})
 
 
+
 	r := router.SetupRouter()
 	r.Run(":8080")
 }

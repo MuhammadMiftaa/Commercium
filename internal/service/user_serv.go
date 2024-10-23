@@ -79,10 +79,10 @@ func (user_serv *usersService) UpdateUser(id int, userNew entity.Users) (entity.
 	// MENGAMBIL DATA YANG INGIN DI UPDATE
 	user, err := user_serv.userRepository.GetUserByID(id)
 	if err != nil {
-		return user, err
+		return userNew, err
 	}
 
-	// VALIDASI APAKAH FULLNAME / EMAIL TIDAK DI INPUT
+	// VALIDASI APAKAH FULLNAME / EMAIL SUDAH DI INPUT
 	if userNew.Fullname != "" {
 		user.Fullname = userNew.Fullname
 	}

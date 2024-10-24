@@ -12,8 +12,8 @@ type OrdersService interface {
 	GetAllOrders() ([]entity.Orders, error)
 	GetOrderByID(id int) (entity.Orders, error)
 	GetOrderByDate(from, to time.Time) ([]entity.Orders, error)
-	CreateOrder(order entity.Orders) (entity.Orders, error)
-	UpdateOrder(id int, orderNew entity.Orders) (entity.Orders, error)
+	CreateOrder(order entity.OrdersRequest) (entity.Orders, error)
+	UpdateOrder(id int, orderNew entity.OrdersRequest) (entity.Orders, error)
 	DeleteOrder(id int) (entity.Orders, error)
 }
 
@@ -53,31 +53,46 @@ func (order_serv *ordersService) GetOrderByDate(from, to time.Time) ([]entity.Or
 	return order_serv.ordersRepository.GetOrderByDate(from, to)
 }
 
-func (order_serv *ordersService) CreateOrder(order entity.Orders) (entity.Orders, error) {
+func (order_serv *ordersService) CreateOrder(orderRequest entity.OrdersRequest) (entity.Orders, error) {
+	// VALIDASI APAKAH USER ID DAN PRODUCT ID KOSONG
+	if orderRequest.UserID == 0 || orderRequest.ProductID == 0 {
+		return entity.Orders{}, errors.New("user id and product id cannot be blank")
+	}
+
+	// VALIDASI APAKAH QUANTITY KOSONG
+	if orderRequest.Quantity == 0 {
+		return entity.Orders{}, errors.New("quantity cannot be blank")
+	}
 
 	// VALIDASI APAKAH PRODUCT ID VALID
-	product, err := order_serv.productsRepository.GetProductByID(order.ProductID)
+	product, err := order_serv.productsRepository.GetProductByID(orderRequest.ProductID)
 	if err != nil {
 		return entity.Orders{}, errors.New("product not found")
 	}
 
 	// VALIDASI APAKAH USER ID VALID
-	_, err = order_serv.usersRepository.GetUserByID(order.UserID)
+	_, err = order_serv.usersRepository.GetUserByID(orderRequest.UserID)
 	if err != nil {
 		return entity.Orders{}, errors.New("user not found")
 	}
 
 	// VALIDASI UNTUK MENGECEK QUANTITY TIDAK 0
-	if order.Quantity <= 0 {
-		return entity.Orders{}, errors.New("quantity cannot be blank")
+	if orderRequest.Quantity <= 0 {
+		return entity.Orders{}, errors.New("minimum quantity is 1")
 	}
 
-	order.TotalPrice = float64(order.Quantity) * product.Price
+	order := entity.Orders{
+		UserID:     orderRequest.UserID,
+		ProductID:  orderRequest.ProductID,
+		Quantity:   orderRequest.Quantity,
+		Status:     "pending",
+		TotalPrice: float64(orderRequest.Quantity) * product.Price,
+	}
 
 	return order_serv.ordersRepository.CreateOrder(order)
 }
 
-func (order_serv *ordersService) UpdateOrder(id int, orderNew entity.Orders) (entity.Orders, error) {
+func (order_serv *ordersService) UpdateOrder(id int, orderNew entity.OrdersRequest) (entity.Orders, error) {
 	order, err := order_serv.ordersRepository.GetOrderByID(id)
 	if err != nil {
 		return entity.Orders{}, err
@@ -87,7 +102,7 @@ func (order_serv *ordersService) UpdateOrder(id int, orderNew entity.Orders) (en
 	if orderNew.Quantity != 0 {
 		// VALIDASI UNTUK MENGECEK QUANTITY TIDAK 0
 		if order.Quantity <= 0 {
-			return entity.Orders{}, errors.New("quantity cannot be blank")
+			return entity.Orders{}, errors.New("quantity cannot be less than 1")
 		}
 
 		order.Quantity = orderNew.Quantity

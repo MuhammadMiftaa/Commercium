@@ -38,6 +38,11 @@ func (user_serv *usersService) GetUserByUsername(username string) (entity.Users,
 }
 
 func (user_serv *usersService) CreateUser(userRequest entity.UsersRequest) (entity.Users, error) {
+	// VALIDASI APAKAH USERNAME, FULLNAME, EMAIL, PASSWORD KOSONG
+	if userRequest.Username == "" || userRequest.Fullname == "" || userRequest.Email == "" || userRequest.Password == "" {
+		return entity.Users{}, errors.New("username, fullname, email, and password cannot be blank")
+	}
+
 	// VALIDASI UNTUK USERNAME AGAR TIDAK BERISI SPASI DAN HANYA MENGANDUNG ALFABET DAN NUMERIK
 	if isValid := helper.UsernameValidator(userRequest.Username); !isValid {
 		return entity.Users{}, errors.New("usernames can only contain letters and numbers, with no spaces allowed")
@@ -48,10 +53,10 @@ func (user_serv *usersService) CreateUser(userRequest entity.UsersRequest) (enti
 		return entity.Users{}, errors.New("please enter a valid email address")
 	}
 
-	// MENGISI ROLE DEFAULT USER
-	// if userRequest.Role == "" {
-	// 	userRequest.Role = "user"
-	// }
+	// MENGECEK APAKAH USERNAME SUDAH DIGUNAKAN
+	if _, err := user_serv.userRepository.GetUserByUsername(userRequest.Username); err == nil {
+		return entity.Users{}, errors.New("username already exists")
+	}
 
 	// VALIDASI PASSWORD SUDAH SESUAI, MIN 8 KARAKTER, MENGANDUNG ALFABET DAN NUMERIK
 	hasMinLen, hasLetter, hasDigit := helper.PasswordValidator(userRequest.Password)
@@ -76,9 +81,9 @@ func (user_serv *usersService) CreateUser(userRequest entity.UsersRequest) (enti
 	user := entity.Users{
 		Username: userRequest.Username,
 		Fullname: userRequest.Fullname,
-		Email: userRequest.Email,
+		Email:    userRequest.Email,
 		Password: userRequest.Password,
-		Role: "user",
+		Role:     "user",
 	}
 
 	return user_serv.userRepository.CreateUser(user)

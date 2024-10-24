@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"time"
 
 	"commercium/internal/entity"
@@ -29,7 +30,7 @@ func (order_repo *ordersRepository) GetAllOrders() ([]entity.Orders, error) {
 	var orders []entity.Orders
 	err := order_repo.db.Find(&orders).Error
 	if err != nil {
-		return nil, err
+		return nil, errors.New("failed to get orders")
 	}
 
 	return orders, nil
@@ -39,7 +40,7 @@ func (order_repo *ordersRepository) GetOrderByID(id int) (entity.Orders, error) 
 	var order entity.Orders
 	err := order_repo.db.First(&order, id).Error
 	if err != nil {
-		return entity.Orders{}, err
+		return entity.Orders{}, errors.New("order not found")
 	}
 
 	return order, nil
@@ -49,7 +50,7 @@ func (order_repo *ordersRepository) GetOrderByDate(from, to time.Time) ([]entity
 	var orders []entity.Orders
 	err := order_repo.db.Where("created_at BETWEEN ? AND ?", from, to).Find(&orders).Error
 	if err != nil {
-		return nil, err
+		return nil, errors.New("failed to get orders")
 	}
 
 	return orders, nil
@@ -58,7 +59,7 @@ func (order_repo *ordersRepository) GetOrderByDate(from, to time.Time) ([]entity
 func (order_repo *ordersRepository) CreateOrder(order entity.Orders) (entity.Orders, error) {
 	err := order_repo.db.Create(&order).Error
 	if err != nil {
-		return entity.Orders{}, err
+		return entity.Orders{}, errors.New("failed to create order")
 	}
 
 	return order, nil
@@ -67,7 +68,7 @@ func (order_repo *ordersRepository) CreateOrder(order entity.Orders) (entity.Ord
 func (order_repo *ordersRepository) UpdateOrder(order entity.Orders) (entity.Orders, error) {
 	err := order_repo.db.Save(&order).Error
 	if err != nil {
-		return entity.Orders{}, err
+		return entity.Orders{}, errors.New("failed to update order")
 	}
 
 	return order, nil
@@ -76,7 +77,7 @@ func (order_repo *ordersRepository) UpdateOrder(order entity.Orders) (entity.Ord
 func (order_repo *ordersRepository) DeleteOrder(order entity.Orders) (entity.Orders, error) {
 	err := order_repo.db.Delete(&order).Error
 	if err != nil {
-		return entity.Orders{}, nil
+		return entity.Orders{}, errors.New("failed to delete order")
 	}
 
 	return order, nil

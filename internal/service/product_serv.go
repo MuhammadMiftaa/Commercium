@@ -41,8 +41,19 @@ func (product_serv *productsService) GetProductByName(value string) ([]entity.Pr
 }
 
 func (product_serv *productsService) CreateProduct(productRequest entity.ProductsRequest) (entity.Products, error) {
-	if *productRequest.Stock < 0 {
-		return entity.Products{}, errors.New("minimum product stock is 0")
+	// VALIDASI APAKAH PRODUCT NAME, DESCRIPTION, PRICE, STOCK KOSONG
+	if productRequest.Name == "" || productRequest.Description == "" || productRequest.Price == 0 || productRequest.Stock == nil {
+		return entity.Products{}, errors.New("product name, description, price, and stock cannot be blank")
+	}
+
+	// VALIDASI APAKAH PRODUCT PRICE TIDAK NEGATIF
+	if productRequest.Price < 0 {
+		return entity.Products{}, errors.New("product price cannot be negative")
+	}
+
+	// VALIDASI APAKAH PRODUCT STOCK TIDAK NEGATIF
+	if productRequest.Stock == nil || *productRequest.Stock < 0 {
+		return entity.Products{}, errors.New("product stock cannot be negative")
 	}
 
 	product := entity.Products{
@@ -59,6 +70,21 @@ func (product_serv *productsService) UpdateProduct(id int, productNew entity.Pro
 	product, err := product_serv.productsRepository.GetProductByID(id)
 	if err != nil {
 		return entity.Products{}, errors.New("product not found")
+	}
+
+	// VALIDASI APAKAH PRODUCT NAME, DESCRIPTION, PRICE, STOCK KOSONG
+	if productNew.Name == "" || productNew.Description == "" || productNew.Price == 0 || productNew.Stock == nil {
+		return entity.Products{}, errors.New("product name, description, price, and stock cannot be blank")
+	}
+
+	// VALIDASI APAKAH PRODUCT PRICE TIDAK NEGATIF
+	if productNew.Price < 0 {
+		return entity.Products{}, errors.New("product price cannot be negative")
+	}
+
+	// VALIDASI APAKAH PRODUCT STOCK TIDAK NEGATIF
+	if productNew.Stock == nil || *productNew.Stock < 0 {
+		return entity.Products{}, errors.New("product stock cannot be negative")
 	}
 
 	// VALIDASI APAKAH ATTRIBUT PRODUCT SUDAH DI INPUT

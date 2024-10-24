@@ -37,7 +37,7 @@ func (user_repo *usersRepository) GetUserByID(id int) (entity.Users, error) {
 	var user entity.Users
 	err := user_repo.db.First(&user, id).Error
 	if err != nil {
-		return user, err
+		return entity.Users{}, err
 	}
 
 	return user, nil
@@ -47,7 +47,7 @@ func (user_repo *usersRepository) GetUserByUsername(username string) (entity.Use
 	var user entity.Users
 	err := user_repo.db.First(&user, "username = ?", username).Error
 	if err != nil {
-		return user, err
+		return entity.Users{}, err
 	}
 
 	return user, nil
@@ -56,7 +56,7 @@ func (user_repo *usersRepository) GetUserByUsername(username string) (entity.Use
 func (user_repo *usersRepository) CreateUser(user entity.Users) (entity.Users, error) {
 	err := user_repo.db.Create(&user).Error
 	if err != nil {
-		return user, err
+		return entity.Users{}, err
 	}
 
 	return user, nil
@@ -65,7 +65,7 @@ func (user_repo *usersRepository) CreateUser(user entity.Users) (entity.Users, e
 func (user_repo *usersRepository) UpdateUser(user entity.Users) (entity.Users, error) {
 	err := user_repo.db.Save(&user).Error
 	if err != nil {
-		return user, err
+		return entity.Users{}, err
 	}
 
 	return user, nil
@@ -74,7 +74,7 @@ func (user_repo *usersRepository) UpdateUser(user entity.Users) (entity.Users, e
 func (user_repo *usersRepository) DeleteUser(user entity.Users) (entity.Users, error) {
 	err := user_repo.db.Delete(&user).Error
 	if err != nil {
-		return user, nil
+		return entity.Users{}, nil
 	}
 
 	return user, nil

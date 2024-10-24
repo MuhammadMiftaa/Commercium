@@ -1,10 +1,11 @@
 package service
 
 import (
-	"commercium/internal/entity"
-	"commercium/internal/repository"
 	"errors"
 	"time"
+
+	"commercium/internal/entity"
+	"commercium/internal/repository"
 )
 
 type OrdersService interface {
@@ -17,11 +18,17 @@ type OrdersService interface {
 }
 
 type ordersService struct {
-	ordersRepository repository.OrdersRepository
+	ordersRepository   repository.OrdersRepository
+	usersRepository    repository.UsersRepository
+	productsRepository repository.ProductsRepository
 }
 
-func NewOrdersService(ordersRepository repository.OrdersRepository) *ordersService {
-	return &ordersService{ordersRepository}
+func NewOrdersService(ordersRepo repository.OrdersRepository, usersRepo repository.UsersRepository, productsRepo repository.ProductsRepository) *ordersService {
+	return &ordersService{
+		ordersRepository:   ordersRepo,
+		usersRepository:    usersRepo,
+		productsRepository: productsRepo,
+	}
 }
 
 func (order_serv *ordersService) GetAllOrders() ([]entity.Orders, error) {
@@ -35,7 +42,7 @@ func (order_serv *ordersService) GetOrderByID(id int) (entity.Orders, error) {
 func (order_serv *ordersService) GetOrderByDate(from, to time.Time) ([]entity.Orders, error) {
 	// VALIDASI UNTUK CEK APAKAH FROM DAN TO TIDAK KOSONG
 	if from.IsZero() || to.IsZero() {
-		return nil, errors.New("Date cannot be blank")
+		return nil, errors.New("date cannot be blank")
 	}
 
 	// VALIDASI UNTUK CEK APAKAH TO TIDAK LEBIH DULU DARI FROM
@@ -47,7 +54,25 @@ func (order_serv *ordersService) GetOrderByDate(from, to time.Time) ([]entity.Or
 }
 
 func (order_serv *ordersService) CreateOrder(order entity.Orders) (entity.Orders, error) {
-	order.TotalPrice = float64(order.Quantity) * 100000
+
+	// VALIDASI APAKAH PRODUCT ID VALID
+	product, err := order_serv.productsRepository.GetProductByID(order.ProductID)
+	if err != nil {
+		return entity.Orders{}, errors.New("product not found")
+	}
+
+	// VALIDASI APAKAH USER ID VALID
+	_, err = order_serv.usersRepository.GetUserByID(order.UserID)
+	if err != nil {
+		return entity.Orders{}, errors.New("user not found")
+	}
+
+	// VALIDASI UNTUK MENGECEK QUANTITY TIDAK 0
+	if order.Quantity <= 0 {
+		return entity.Orders{}, errors.New("quantity cannot be blank")
+	}
+
+	order.TotalPrice = float64(order.Quantity) * product.Price
 
 	return order_serv.ordersRepository.CreateOrder(order)
 }
@@ -55,25 +80,37 @@ func (order_serv *ordersService) CreateOrder(order entity.Orders) (entity.Orders
 func (order_serv *ordersService) UpdateOrder(id int, orderNew entity.Orders) (entity.Orders, error) {
 	order, err := order_serv.ordersRepository.GetOrderByID(id)
 	if err != nil {
-		return orderNew, err
+		return entity.Orders{}, err
 	}
 
 	// VALIDASI APAKAH ATTRIBUT ORDER SUDAH DI INPUT
 	if orderNew.Quantity != 0 {
+		// VALIDASI UNTUK MENGECEK QUANTITY TIDAK 0
+		if order.Quantity <= 0 {
+			return entity.Orders{}, errors.New("quantity cannot be blank")
+		}
+
 		order.Quantity = orderNew.Quantity
-		order.TotalPrice = float64(order.Quantity) * 100000
+
+		// MENGAMBIL HARGA PRODUCT
+		product, err := order_serv.productsRepository.GetProductByID(order.ProductID)
+		if err != nil {
+			return entity.Orders{}, errors.New("product not found")
+		}
+
+		order.TotalPrice = float64(order.Quantity) * product.Price
 	}
 	if orderNew.Status != "" {
 		order.Status = orderNew.Status
 	}
 
-	return order_serv.ordersRepository.DeleteOrder(order)
+	return order_serv.ordersRepository.UpdateOrder(order)
 }
 
 func (order_serv *ordersService) DeleteOrder(id int) (entity.Orders, error) {
 	product, err := order_serv.ordersRepository.GetOrderByID(id)
 	if err != nil {
-		return product, errors.New("Order not found")
+		return entity.Orders{}, errors.New("order not found")
 	}
 
 	return order_serv.ordersRepository.DeleteOrder(product)

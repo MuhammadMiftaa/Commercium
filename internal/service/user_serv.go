@@ -40,12 +40,12 @@ func (user_serv *usersService) GetUserByUsername(username string) (entity.Users,
 func (user_serv *usersService) CreateUser(user entity.Users) (entity.Users, error) {
 	// VALIDASI UNTUK USERNAME AGAR TIDAK BERISI SPASI DAN HANYA MENGANDUNG ALFABET DAN NUMERIK
 	if isValid := helper.UsernameValidator(user.Username); !isValid {
-		return user, errors.New("Usernames can only contain letters and numbers, with no spaces allowed")
+		return entity.Users{}, errors.New("usernames can only contain letters and numbers, with no spaces allowed")
 	}
 
 	// VALIDASI UNTUK FORMAT EMAIL SUDAH BENAR
 	if isValid := helper.EmailValidator(user.Email); !isValid {
-		return user, errors.New("Please enter a valid email address")
+		return entity.Users{}, errors.New("please enter a valid email address")
 	}
 
 	// MENGISI ROLE DEFAULT USER
@@ -56,19 +56,19 @@ func (user_serv *usersService) CreateUser(user entity.Users) (entity.Users, erro
 	// VALIDASI PASSWORD SUDAH SESUAI, MIN 8 KARAKTER, MENGANDUNG ALFABET DAN NUMERIK
 	hasMinLen, hasLetter, hasDigit := helper.PasswordValidator(user.Password)
 	if !hasMinLen {
-		return user, errors.New("Password must be at least 8 characters long")
+		return user, errors.New("password must be at least 8 characters long")
 	}
 	if !hasLetter {
-		return user, errors.New("Password must contain at least one letter")
+		return user, errors.New("password must contain at least one letter")
 	}
 	if !hasDigit {
-		return user, errors.New("Password must contain at least one number")
+		return user, errors.New("password must contain at least one number")
 	}
 
 	// HASHING PASSWORD MENGGUNAKAN BCRYPT
 	hashedPassword, err := helper.PasswordHashing(user.Password)
 	if err != nil {
-		return user, err
+		return entity.Users{}, err
 	}
 	user.Password = hashedPassword
 
@@ -79,7 +79,7 @@ func (user_serv *usersService) UpdateUser(id int, userNew entity.Users) (entity.
 	// MENGAMBIL DATA YANG INGIN DI UPDATE
 	user, err := user_serv.userRepository.GetUserByID(id)
 	if err != nil {
-		return userNew, err
+		return entity.Users{}, err
 	}
 
 	// VALIDASI APAKAH FULLNAME / EMAIL SUDAH DI INPUT
@@ -88,7 +88,7 @@ func (user_serv *usersService) UpdateUser(id int, userNew entity.Users) (entity.
 	}
 	if userNew.Email != "" {
 		if isValid := helper.EmailValidator(userNew.Email); !isValid {
-			return userNew, errors.New("Please enter a valid email address")
+			return entity.Users{}, errors.New("please enter a valid email address")
 		}
 		user.Email = userNew.Email
 	}
@@ -100,7 +100,7 @@ func (user_serv *usersService) DeleteUser(id int) (entity.Users, error) {
 	// MENGAMBIL DATA YANG INGIN DI UPDATE
 	user, err := user_serv.userRepository.GetUserByID(id)
 	if err != nil {
-		return user, err
+		return entity.Users{}, err
 	}
 
 	return user_serv.userRepository.DeleteUser(user)

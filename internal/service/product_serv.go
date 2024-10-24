@@ -35,7 +35,7 @@ func (product_serv *productsService) GetProductByID(id int) (entity.Products, er
 
 func (product_serv *productsService) GetProductByName(value string) ([]entity.Products, error) {
 	if value == "" {
-		return nil, errors.New("Parameter cannot be blank")
+		return nil, errors.New("parameter cannot be blank")
 	}
 
 	return product_serv.productsRepository.GetProductByName(value)
@@ -48,7 +48,7 @@ func (product_serv *productsService) CreateProduct(product entity.Products) (ent
 func (product_serv *productsService) UpdateProduct(id int, productNew entity.Products) (entity.Products, error) {
 	product, err := product_serv.productsRepository.GetProductByID(id)
 	if err != nil {
-		return productNew, errors.New("Product not found")
+		return entity.Products{}, errors.New("product not found")
 	}
 
 	// VALIDASI APAKAH ATTRIBUT PRODUCT SUDAH DI INPUT
@@ -71,7 +71,7 @@ func (product_serv *productsService) UpdateProduct(id int, productNew entity.Pro
 func (product_serv *productsService) DeleteProduct(id int) (entity.Products, error) {
 	product, err := product_serv.productsRepository.GetProductByID(id)
 	if err != nil {
-		return product, errors.New("Product not found")
+		return entity.Products{}, errors.New("product not found")
 	}
 
 	return product_serv.productsRepository.DeleteProduct(product)

@@ -39,7 +39,7 @@ func (order_repo *ordersRepository) GetOrderByID(id int) (entity.Orders, error) 
 	var order entity.Orders
 	err := order_repo.db.First(&order, id).Error
 	if err != nil {
-		return order, err
+		return entity.Orders{}, err
 	}
 
 	return order, nil
@@ -58,7 +58,7 @@ func (order_repo *ordersRepository) GetOrderByDate(from, to time.Time) ([]entity
 func (order_repo *ordersRepository) CreateOrder(order entity.Orders) (entity.Orders, error) {
 	err := order_repo.db.Create(&order).Error
 	if err != nil {
-		return order, err
+		return entity.Orders{}, err
 	}
 
 	return order, nil
@@ -67,7 +67,7 @@ func (order_repo *ordersRepository) CreateOrder(order entity.Orders) (entity.Ord
 func (order_repo *ordersRepository) UpdateOrder(order entity.Orders) (entity.Orders, error) {
 	err := order_repo.db.Save(&order).Error
 	if err != nil {
-		return order, err
+		return entity.Orders{}, err
 	}
 
 	return order, nil
@@ -76,7 +76,7 @@ func (order_repo *ordersRepository) UpdateOrder(order entity.Orders) (entity.Ord
 func (order_repo *ordersRepository) DeleteOrder(order entity.Orders) (entity.Orders, error) {
 	err := order_repo.db.Delete(&order).Error
 	if err != nil {
-		return order, nil
+		return entity.Orders{}, nil
 	}
 
 	return order, nil

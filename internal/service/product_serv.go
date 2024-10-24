@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"strconv"
 
 	"commercium/internal/entity"
 	"commercium/internal/repository"
@@ -12,8 +11,8 @@ type ProductsService interface {
 	GetAllProducts() ([]entity.Products, error)
 	GetProductByID(id int) (entity.Products, error)
 	GetProductByName(value string) ([]entity.Products, error)
-	CreateProduct(product entity.Products) (entity.Products, error)
-	UpdateProduct(id int, productNew entity.Products) (entity.Products, error)
+	CreateProduct(product entity.ProductsRequest) (entity.Products, error)
+	UpdateProduct(id int, productNew entity.ProductsRequest) (entity.Products, error)
 	DeleteProduct(id int) (entity.Products, error)
 }
 
@@ -41,11 +40,22 @@ func (product_serv *productsService) GetProductByName(value string) ([]entity.Pr
 	return product_serv.productsRepository.GetProductByName(value)
 }
 
-func (product_serv *productsService) CreateProduct(product entity.Products) (entity.Products, error) {
+func (product_serv *productsService) CreateProduct(productRequest entity.ProductsRequest) (entity.Products, error) {
+	if *productRequest.Stock < 0 {
+		return entity.Products{}, errors.New("minimum product stock is 0")
+	}
+
+	product := entity.Products{
+		Name:        productRequest.Name,
+		Description: productRequest.Description,
+		Price:       productRequest.Price,
+		Stock:       *productRequest.Stock,
+	}
+
 	return product_serv.productsRepository.CreateProduct(product)
 }
 
-func (product_serv *productsService) UpdateProduct(id int, productNew entity.Products) (entity.Products, error) {
+func (product_serv *productsService) UpdateProduct(id int, productNew entity.ProductsRequest) (entity.Products, error) {
 	product, err := product_serv.productsRepository.GetProductByID(id)
 	if err != nil {
 		return entity.Products{}, errors.New("product not found")
@@ -61,8 +71,8 @@ func (product_serv *productsService) UpdateProduct(id int, productNew entity.Pro
 	if productNew.Price != 0 {
 		product.Price = productNew.Price
 	}
-	if strconv.Itoa(productNew.Stock) != "" {
-		product.Stock = productNew.Stock
+	if productNew.Stock != nil {
+		product.Stock = *productNew.Stock
 	}
 
 	return product_serv.productsRepository.UpdateProduct(product)

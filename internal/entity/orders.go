@@ -12,3 +12,19 @@ type Orders struct {
 	CreatedAt  time.Time `gorm:"type:timestamp;not null"`
 	UpdatedAt  time.Time `gorm:"type:timestamp;not null"`
 }
+
+type OrdersResponse struct {
+	ID         int     `json:"id"`
+	UserID     int     `json:"user_id"`
+	ProductID  int     `json:"product_id"`
+	Quantity   int     `json:"quantity"`
+	TotalPrice float64 `json:"totalprice"`
+	Status     string  `json:"status"`
+}
+
+type OrdersRequest struct {
+	UserID    int    `json:"user_id"`
+	ProductID int    `json:"product_id"`
+	Quantity  int    `json:"quantity"`
+	Status    string `json:"status"`
+}

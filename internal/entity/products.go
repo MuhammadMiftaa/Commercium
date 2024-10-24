@@ -11,3 +11,18 @@ type Products struct {
 	CreatedAt   time.Time `gorm:"type:timestamp;not null"`
 	UpdatedAt   time.Time `gorm:"type:timestamp;not null"`
 }
+
+type ProductsResponse struct {
+	ID          int     `json:"id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+	Stock       int     `json:"stock"`
+}
+
+type ProductsRequest struct {
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+	Stock       *int    `json:"stock"`
+}

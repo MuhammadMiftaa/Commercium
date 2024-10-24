@@ -4,6 +4,8 @@ import (
 	"regexp"
 	"unicode"
 
+	"commercium/internal/entity"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -42,4 +44,36 @@ func PasswordHashing(str string) (string, error) {
 	}
 
 	return string(hashPassword), nil
+}
+
+func ConvertToResponseType(data interface{}) interface{} {
+	switch v := data.(type) {
+	case entity.Users:
+		return entity.UsersResponse{
+			ID:       v.ID,
+			Username: v.Username,
+			Fullname: v.Fullname,
+			Email:    v.Email,
+			Role:     v.Role,
+		}
+	case entity.Products:
+		return entity.ProductsResponse{
+			ID:          v.ID,
+			Name:        v.Name,
+			Description: v.Description,
+			Price:       v.Price,
+			Stock:       v.Stock,
+		}
+	case entity.Orders:
+		return entity.OrdersResponse{
+			ID:         v.ID,
+			ProductID:  v.ProductID,
+			UserID:     v.UserID,
+			Quantity:   v.Quantity,
+			TotalPrice: v.TotalPrice,
+			Status:     v.Status,
+		}
+	default:
+		return nil
+	}
 }

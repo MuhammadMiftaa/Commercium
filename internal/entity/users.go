@@ -12,3 +12,18 @@ type Users struct {
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 }
+
+type UsersResponse struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Fullname string `json:"fullname"`
+	Email    string `json:"email"`
+	Role     string `json:"role"`
+}
+
+type UsersRequest struct {
+	Username string `json:"username"`
+	Fullname string `json:"fullname"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}

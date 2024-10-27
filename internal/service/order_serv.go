@@ -23,7 +23,7 @@ type ordersService struct {
 	productsRepository repository.ProductsRepository
 }
 
-func NewOrdersService(ordersRepo repository.OrdersRepository, usersRepo repository.UsersRepository, productsRepo repository.ProductsRepository) *ordersService {
+func NewOrdersService(ordersRepo repository.OrdersRepository, usersRepo repository.UsersRepository, productsRepo repository.ProductsRepository) OrdersService {
 	return &ordersService{
 		ordersRepository:   ordersRepo,
 		usersRepository:    usersRepo,

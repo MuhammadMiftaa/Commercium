@@ -20,7 +20,7 @@ type productsService struct {
 	productsRepository repository.ProductsRepository
 }
 
-func NewProductsService(productsRepository repository.ProductsRepository) *productsService {
+func NewProductsService(productsRepository repository.ProductsRepository) ProductsService {
 	return &productsService{productsRepository}
 }
 

@@ -22,7 +22,7 @@ type ordersRepository struct {
 	db *gorm.DB
 }
 
-func NewOrdersRepository(db *gorm.DB) *ordersRepository {
+func NewOrdersRepository(db *gorm.DB) OrdersRepository {
 	return &ordersRepository{db}
 }
 

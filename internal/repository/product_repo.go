@@ -20,7 +20,7 @@ type productsRepository struct {
 	db *gorm.DB
 }
 
-func NewProductsRepository(db *gorm.DB) *productsRepository {
+func NewProductsRepository(db *gorm.DB) ProductsRepository {
 	return &productsRepository{db}
 }
 

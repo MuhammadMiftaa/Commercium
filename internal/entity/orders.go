@@ -11,6 +11,9 @@ type Orders struct {
 	Status     string    `gorm:"type:varchar(100);not null"`
 	CreatedAt  time.Time `gorm:"type:timestamp;not null"`
 	UpdatedAt  time.Time `gorm:"type:timestamp;not null"`
+
+	User    Users    `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Product Products `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 type OrdersResponse struct {

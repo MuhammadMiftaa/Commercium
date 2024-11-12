@@ -24,6 +24,7 @@ func (product_handler *productsHandler) GetAllProducts(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -52,6 +53,7 @@ func (product_handler *productsHandler) GetProductByID(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -74,6 +76,7 @@ func (product_handler *productsHandler) CreateProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -83,6 +86,7 @@ func (product_handler *productsHandler) CreateProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -105,6 +109,7 @@ func (product_handler *productsHandler) UpdateProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -117,6 +122,7 @@ func (product_handler *productsHandler) UpdateProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -141,6 +147,7 @@ func (product_handler *productsHandler) DeleteProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return

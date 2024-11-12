@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"net/http"
+	"strconv"
+
 	"commercium/internal/entity"
 	"commercium/internal/helper"
 	"commercium/internal/service"
-	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,6 +24,7 @@ func (order_handler *ordersHandler) GetAllOrders(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -51,6 +53,7 @@ func (order_handler *ordersHandler) GetOrderByID(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -73,6 +76,7 @@ func (order_handler *ordersHandler) CreateOrder(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -82,6 +86,7 @@ func (order_handler *ordersHandler) CreateOrder(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -104,6 +109,7 @@ func (order_handler *ordersHandler) UpdateOrder(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -116,6 +122,7 @@ func (order_handler *ordersHandler) UpdateOrder(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -140,6 +147,7 @@ func (order_handler *ordersHandler) DeleteOrder(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return

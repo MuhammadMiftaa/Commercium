@@ -15,6 +15,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			if ctx.Request.URL.Path != "/" {
 				ctx.JSON(http.StatusUnauthorized, gin.H{
 					"statusCode": 401,
+					"status":     false,
 					"error":      "Unauthorized",
 				})
 				ctx.Abort()
@@ -30,6 +31,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		if err != nil {
 			ctx.JSON(http.StatusUnauthorized, gin.H{
 				"statusCode": 401,
+				"status":     false,
 				"error":      "Unauthorized",
 			})
 			ctx.Abort()

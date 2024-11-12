@@ -25,6 +25,7 @@ func (user_handler *usersHandler) Register(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -34,6 +35,7 @@ func (user_handler *usersHandler) Register(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -56,6 +58,7 @@ func (user_handler *usersHandler) Login(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -65,6 +68,7 @@ func (user_handler *usersHandler) Login(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -85,6 +89,7 @@ func (user_handler *usersHandler) GetAllUsers(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -113,6 +118,7 @@ func (user_handler *usersHandler) GetUserByID(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -135,6 +141,7 @@ func (user_handler *usersHandler) UpdateUser(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -147,6 +154,7 @@ func (user_handler *usersHandler) UpdateUser(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return
@@ -171,6 +179,7 @@ func (user_handler *usersHandler) DeleteUser(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
+			"status":     false,
 			"message":    err.Error(),
 		})
 		return

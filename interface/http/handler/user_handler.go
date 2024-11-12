@@ -129,37 +129,6 @@ func (user_handler *usersHandler) GetUserByID(c *gin.Context) {
 	})
 }
 
-func (user_handler *usersHandler) CreateUser(c *gin.Context) {
-	var userRequest entity.UsersRequest
-	err := c.ShouldBindBodyWithJSON(&userRequest)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"statusCode": 400,
-			"message":    err.Error(),
-		})
-		return
-	}
-
-	user, err := user_handler.usersService.CreateUser(userRequest)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"statusCode": 400,
-			"message":    err.Error(),
-		})
-		return
-	}
-
-	// MENGUBAH TIPE ENITITY KE TIPE RESPONSE
-	userResponse := helper.ConvertToResponseType(user)
-
-	c.JSON(http.StatusOK, gin.H{
-		"statusCode": 200,
-		"status":     true,
-		"message":    "Create user data",
-		"data":       userResponse,
-	})
-}
-
 func (user_handler *usersHandler) UpdateUser(c *gin.Context) {
 	var userRequest entity.UsersRequest
 	err := c.ShouldBindBodyWithJSON(&userRequest)

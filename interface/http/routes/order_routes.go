@@ -2,6 +2,7 @@ package routes
 
 import (
 	"commercium/interface/http/handler"
+	"commercium/interface/http/middlewares"
 	"commercium/internal/repository"
 	"commercium/internal/service"
 
@@ -17,6 +18,7 @@ func OrderRoutes(version *gin.RouterGroup, db *gorm.DB) {
 	Order_serv := service.NewOrdersService(Order_repo, User_repo, Product_repo)
 	Order_handler := handler.NewOrdersHandler(Order_serv)
 
+	version.Use(middlewares.AuthMiddleware())
 	version.GET("orders", Order_handler.GetAllOrders)
 	version.GET("orders/:id", Order_handler.GetOrderByID)
 	version.POST("orders", Order_handler.CreateOrder)

@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"errors"
 	"regexp"
 	"time"
 	"unicode"
@@ -99,6 +100,22 @@ func GenerateToken(username string, email string) (string, error) {
 
 	return signedToken, nil
 }
+
+func VerifyToken(cookie string) (interface{}, error) {
+	token, _ := jwt.Parse(cookie, func(t *jwt.Token) (interface{}, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("sign in to preceed")
+		}
+		return []byte(secretKey), nil
+	})
+
+	if _, ok := token.Claims.(jwt.MapClaims); !ok && !token.Valid {
+		return nil, errors.New("sign in to preceed")
+	}
+
+	return token.Claims.(jwt.MapClaims), nil
+}
+
 
 func ComparePass(hashPassword, reqPassword string) bool {
 	hash, pass := []byte(hashPassword), []byte(reqPassword)

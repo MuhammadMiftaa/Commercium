@@ -1,0 +1,1627 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Commercium-Web API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Products"
+    },
+    {
+      "name": "Orders"
+    }
+  ],
+  "paths": {
+    "/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "aralie@mail.com",
+                  "password": "abcd1234"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Set-Cookie": {
+                "schema": {
+                  "type": "string",
+                  "example": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyYWxpZUBtYWlsLmNvbSIsImV4cCI6MTczMTQ3OTM0NSwidXNlcm5hbWUiOiJhcmFsaWUifQ.jyK-t5TzctRvSqIsKATDd5VaTi_FhfKrjuhx_cVI-1U; Path=/; Domain=localhost; Max-Age=86400; HttpOnly"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:29:05 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "237"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyYWxpZUBtYWlsLmNvbSIsImV4cCI6MTczMTQ3OTM0NSwidXNlcm5hbWUiOiJhcmFsaWUifQ.jyK-t5TzctRvSqIsKATDd5VaTi_FhfKrjuhx_cVI-1U",
+                  "message": "Login user data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:29:18 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "65"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Missing Password - 400 Bad Request",
+                    "value": {
+                      "message": "email and password cannot be blank",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-1": {
+                    "summary": "User Not Found - 400 Bad Request",
+                    "value": {
+                      "message": "user not found",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-2": {
+                    "summary": "Incorrect Password - 400 Bad Request",
+                    "value": {
+                      "message": "password is incorrect",
+                      "statusCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/register": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "username": "icel",
+                  "fullname": "hello world",
+                  "email": "icel@mail.com",
+                  "password": "aoiwoifqoiw 0912"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:22:41 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "163"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 23,
+                    "username": "erine",
+                    "fullname": "hello world",
+                    "email": "erine@mail.com",
+                    "role": "user"
+                  },
+                  "message": "Register user data",
+                  "status": true,
+                  "statusCode": 201
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:20:54 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "63"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Username Or Email Exists - 400 Bad Request",
+                    "value": {
+                      "message": "username or email already exists",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-1": {
+                    "summary": "Invalid Username Format - 400 Bad Request",
+                    "value": {
+                      "message": "usernames can only contain letters and numbers, with no spaces allowed",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-2": {
+                    "summary": "Invalid Email Format - 400 Bad Request",
+                    "value": {
+                      "message": "please enter a valid email address",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-3": {
+                    "summary": "Password Too Short - 400 Bad Request",
+                    "value": {
+                      "message": "password must be at least 8 characters long",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-4": {
+                    "summary": "Password Missing Letter - 400 Bad Request",
+                    "value": {
+                      "message": "password must contain at least one letter",
+                      "statusCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get All Users",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:25:48 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "1250"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 1,
+                      "username": "Mifta",
+                      "fullname": "Muhammad Miftakul Salam",
+                      "email": "madmifta77@gmail.com",
+                      "role": "admin"
+                    },
+                    {
+                      "id": 5,
+                      "username": "Muhammad",
+                      "fullname": "Muhammad Miftakul Salam",
+                      "email": "miftakulsalam99@gmail.com",
+                      "role": "admin"
+                    },
+                    {
+                      "id": 7,
+                      "username": "MuhammadMifta",
+                      "fullname": "Muhammad Miftakul Salam",
+                      "email": "arbog9030@gmail.com",
+                      "role": "user"
+                    },
+                    {
+                      "id": 9,
+                      "username": "miftaa",
+                      "fullname": "Muhammad Miftakul Salam",
+                      "email": "muhammadmiftakul.22101@mhs.unesa.ac.id",
+                      "role": "user"
+                    },
+                    {
+                      "id": 10,
+                      "username": "miftaaas",
+                      "fullname": "Muhammad Miftakul Salam",
+                      "email": "miftaaa@gmail.com",
+                      "role": "user"
+                    },
+                    {
+                      "id": 15,
+                      "username": "test",
+                      "fullname": "hello world",
+                      "email": "test@mail.com",
+                      "role": "user"
+                    },
+                    {
+                      "id": 11,
+                      "username": "miftamuhammad",
+                      "fullname": "Muhammad Miftakul Miftakul",
+                      "email": "emailbaru@mail.com",
+                      "role": "User"
+                    },
+                    {
+                      "id": 21,
+                      "username": "shaniindira",
+                      "fullname": "shani indira",
+                      "email": "shani@gmail.com",
+                      "role": "user"
+                    },
+                    {
+                      "id": 22,
+                      "username": "aralie",
+                      "fullname": "hello world",
+                      "email": "aralie@mail.com",
+                      "role": "user"
+                    },
+                    {
+                      "id": 23,
+                      "username": "erine",
+                      "fullname": "hello world",
+                      "email": "erine@mail.com",
+                      "role": "user"
+                    },
+                    {
+                      "id": 24,
+                      "username": "icel",
+                      "fullname": "hello world",
+                      "email": "icel@mail.com",
+                      "role": "user"
+                    }
+                  ],
+                  "message": "Get all users data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/1": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get User By ID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:26:49 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "176"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 1,
+                    "username": "Mifta",
+                    "fullname": "Muhammad Miftakul Salam",
+                    "email": "madmifta77@gmail.com",
+                    "role": "admin"
+                  },
+                  "message": "Get user data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:49:08 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "45"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "user not found",
+                  "statusCode": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/11": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Edit User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "fullname": "Muhammad Miftakul Miftakul"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:27:15 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "188"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 11,
+                    "username": "miftamuhammad",
+                    "fullname": "Muhammad Miftakul Miftakul",
+                    "email": "emailbaru@mail.com",
+                    "role": "User"
+                  },
+                  "message": "Update user data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:27:43 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "65"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Invalid Email Format - 400 Bad Request",
+                    "value": {
+                      "message": "please enter a valid email address",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-1": {
+                    "summary": "User Not Found - 400 Bad Request",
+                    "value": {
+                      "message": "user not found",
+                      "statusCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/14": {
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete User",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:28:48 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "159"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 24,
+                    "username": "icel",
+                    "fullname": "hello world",
+                    "email": "icel@mail.com",
+                    "role": "user"
+                  },
+                  "message": "Delete user data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:48:53 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "45"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "user not found",
+                  "statusCode": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get All Products",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:49:42 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "463"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 1,
+                      "name": "Xiaomi Redmi 12",
+                      "description": "Xiaomi Latest Smartphone",
+                      "price": 2100000,
+                      "stock": 100
+                    },
+                    {
+                      "id": 3,
+                      "name": "Lenovo Ideapad Slim 1",
+                      "description": "Idepad laptop series",
+                      "price": 7000000,
+                      "stock": 30
+                    },
+                    {
+                      "id": 4,
+                      "name": "Baseus Encok WM02",
+                      "description": "Baseus TWS",
+                      "price": 175000,
+                      "stock": 80
+                    },
+                    {
+                      "id": 7,
+                      "name": "Lexar",
+                      "description": "Lexar SSD SATA Enclosure",
+                      "price": 280000,
+                      "stock": 120
+                    }
+                  ],
+                  "message": "Get all products data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Create Product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "cuma ngetes",
+                  "description": "ini deskripsi produk",
+                  "price": 99999,
+                  "stock": 99
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:51:05 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "163"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 8,
+                    "name": "cuma ngetes",
+                    "description": "ini deskripsi produk",
+                    "price": 99999,
+                    "stock": 99
+                  },
+                  "message": "Create product data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:51:54 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "63"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Invalid Product Stock - 400 Bad Request",
+                    "value": {
+                      "message": "product stock cannot be negative",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-1": {
+                    "summary": "Invalid Product Price - 400 Bad Request",
+                    "value": {
+                      "message": "product price cannot be negative",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-2": {
+                    "summary": "Field Blank - 400 Bad Request",
+                    "value": {
+                      "message": "product name, description, price, and stock cannot be blank",
+                      "statusCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products/3": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get Product By ID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:50:16 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "172"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 3,
+                    "name": "Lenovo Ideapad Slim 1",
+                    "description": "Idepad laptop series",
+                    "price": 7000000,
+                    "stock": 30
+                  },
+                  "message": "Get product data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:50:45 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "48"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "product not found",
+                  "statusCode": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products/5": {
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Edit Product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "Lenovo Ideapad Slim 1",
+                  "description": "Idepad laptop series",
+                  "price": 7000000,
+                  "stock": 30
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:56:29 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "175"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 3,
+                    "name": "Lenovo Ideapad Slim 1",
+                    "description": "Idepad laptop series",
+                    "price": 7000000,
+                    "stock": 10
+                  },
+                  "message": "Update product data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:55:00 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "48"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "product not found",
+                  "statusCode": 400
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Delete Product",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:57:29 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "163"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 7,
+                    "name": "Lexar",
+                    "description": "Lexar SSD SATA Enclosure",
+                    "price": 280000,
+                    "stock": 120
+                  },
+                  "message": "Delete product data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:56:59 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "48"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "product not found",
+                  "statusCode": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get All Orders",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:58:08 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "249"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 3,
+                      "user_id": 1,
+                      "product_id": 1,
+                      "quantity": 20,
+                      "totalprice": 42000000,
+                      "status": "Paid"
+                    },
+                    {
+                      "id": 4,
+                      "user_id": 5,
+                      "product_id": 1,
+                      "quantity": 24,
+                      "totalprice": 50400000,
+                      "status": "Paid"
+                    }
+                  ],
+                  "message": "Get all orders data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Create Order",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "user_id": 7,
+                  "product_id": 4,
+                  "quantity": 10,
+                  "status": "pending"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 07:05:01 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "161"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 8,
+                    "user_id": 5,
+                    "product_id": 4,
+                    "quantity": 100,
+                    "totalprice": 17500000,
+                    "status": "pending"
+                  },
+                  "message": "Create order data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 07:02:49 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "52"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Invalid Quantity - 400 Bad Request",
+                    "value": {
+                      "message": "minimum quantity is 1",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-1": {
+                    "summary": "Product Not Found - 400 Bad Request",
+                    "value": {
+                      "message": "product not found",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-2": {
+                    "summary": "User Not Found - 400 Bad Request",
+                    "value": {
+                      "message": "user not found",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-3": {
+                    "summary": "Missing Quantity - 400 Bad Request - 400 Bad Request",
+                    "value": {
+                      "message": "quantity cannot be blank",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-4": {
+                    "summary": "Missing User ID or Product ID - 400 Bad Request",
+                    "value": {
+                      "message": "user id and product id cannot be blank",
+                      "statusCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/orders/3": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get Order By ID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 06:58:47 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "154"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 3,
+                    "user_id": 1,
+                    "product_id": 1,
+                    "quantity": 20,
+                    "totalprice": 42000000,
+                    "status": "Paid"
+                  },
+                  "message": "Get order data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 07:00:04 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "46"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "order not found",
+                  "statusCode": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/orders/5": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Update Order",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "quantity": 80,
+                  "status": "paid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 07:10:11 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "159"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 8,
+                    "user_id": 5,
+                    "product_id": 4,
+                    "quantity": 80,
+                    "totalprice": 14000000,
+                    "status": "paid"
+                  },
+                  "message": "Update product data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 07:10:40 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "46"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Order Not Found - 400 Bad Request",
+                    "value": {
+                      "message": "order not found",
+                      "statusCode": 400
+                    }
+                  },
+                  "example-1": {
+                    "summary": "Invalid Quantity - 400 Bad Request",
+                    "value": {
+                      "message": "quantity cannot be less than 1",
+                      "statusCode": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Delete Order",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 07:14:14 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "159"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "id": 8,
+                    "user_id": 5,
+                    "product_id": 4,
+                    "quantity": 80,
+                    "totalprice": 14000000,
+                    "status": "paid"
+                  },
+                  "message": "Delete product data",
+                  "status": true,
+                  "statusCode": 200
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 12 Nov 2024 07:13:42 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "46"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "order not found",
+                  "statusCode": 400
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

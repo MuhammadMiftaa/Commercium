@@ -1,0 +1,2019 @@
+{
+  "info": {
+    "_postman_id": "5b9ce7e6-9d72-4e44-82c7-dd7db6f2a976",
+    "name": "Commercium-Web API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32058521"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"aralie@mail.com\",\r\n    \"password\": \"abcd1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "auth", "login"]
+            }
+          },
+          "response": [
+            {
+              "name": "Login Successful - 200 OK",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"aralie@mail.com\",\r\n    \"password\": \"abcd1234\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/login",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyYWxpZUBtYWlsLmNvbSIsImV4cCI6MTczMTQ3OTM0NSwidXNlcm5hbWUiOiJhcmFsaWUifQ.jyK-t5TzctRvSqIsKATDd5VaTi_FhfKrjuhx_cVI-1U; Path=/; Domain=localhost; Max-Age=86400; HttpOnly"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:29:05 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "237"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyYWxpZUBtYWlsLmNvbSIsImV4cCI6MTczMTQ3OTM0NSwidXNlcm5hbWUiOiJhcmFsaWUifQ.jyK-t5TzctRvSqIsKATDd5VaTi_FhfKrjuhx_cVI-1U\",\n    \"message\": \"Login user data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            },
+            {
+              "name": "Missing Password - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"aralie@mail.com\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/login",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "login"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:29:18 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "65"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"email and password cannot be blank\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "User Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"araliee@mail.com\",\r\n    \"password\": \"abcd1234\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/login",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "login"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:29:58 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "45"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"user not found\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Incorrect Password - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"aralie@mail.com\",\r\n    \"password\": \"abcd1234a\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/login",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "login"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:30:13 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "52"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"password is incorrect\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"icel\",\r\n    \"fullname\": \"hello world\",\r\n    \"email\": \"icel@mail.com\",\r\n    \"password\": \"aoiwoifqoiw 0912\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "auth", "register"]
+            }
+          },
+          "response": [
+            {
+              "name": "Username Or Email Exists - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"aralie\",\r\n    \"fullname\": \"hello world\",\r\n    \"email\": \"aralie@mail.com\",\r\n    \"password\": \"abcd1234\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/register",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "register"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:20:54 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"username or email already exists\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Registration Success - 200 OK",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"erine\",\r\n    \"fullname\": \"hello world\",\r\n    \"email\": \"erine@mail.com\",\r\n    \"password\": \"abcd1234\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/register",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "register"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:22:41 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "163"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 23,\n        \"username\": \"erine\",\n        \"fullname\": \"hello world\",\n        \"email\": \"erine@mail.com\",\n        \"role\": \"user\"\n    },\n    \"message\": \"Register user data\",\n    \"status\": true,\n    \"statusCode\": 201\n}"
+            },
+            {
+              "name": "Invalid Username Format - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"erine oline\",\r\n    \"fullname\": \"hello world\",\r\n    \"email\": \"erine@mail.com\",\r\n    \"password\": \"abcd1234\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/register",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "register"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:23:17 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "101"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"usernames can only contain letters and numbers, with no spaces allowed\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Invalid Email Format - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"erine\",\r\n    \"fullname\": \"hello world\",\r\n    \"email\": \"erinemailcom\",\r\n    \"password\": \"abcd1234\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/register",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "register"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:23:38 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "65"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"please enter a valid email address\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Password Too Short - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"icel\",\r\n    \"fullname\": \"hello world\",\r\n    \"email\": \"icel@mail.com\",\r\n    \"password\": \"abcd\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/register",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "register"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:24:22 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "74"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"password must be at least 8 characters long\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Password Missing Letter - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"icel\",\r\n    \"fullname\": \"hello world\",\r\n    \"email\": \"icel@mail.com\",\r\n    \"password\": \"1234567890\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/auth/register",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "auth", "register"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:24:50 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "76"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"password must contain at least one letter\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "users"]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Users Success - 200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/users",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "users"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:25:48 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1250"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"username\": \"Mifta\",\n            \"fullname\": \"Muhammad Miftakul Salam\",\n            \"email\": \"madmifta77@gmail.com\",\n            \"role\": \"admin\"\n        },\n        {\n            \"id\": 5,\n            \"username\": \"Muhammad\",\n            \"fullname\": \"Muhammad Miftakul Salam\",\n            \"email\": \"miftakulsalam99@gmail.com\",\n            \"role\": \"admin\"\n        },\n        {\n            \"id\": 7,\n            \"username\": \"MuhammadMifta\",\n            \"fullname\": \"Muhammad Miftakul Salam\",\n            \"email\": \"arbog9030@gmail.com\",\n            \"role\": \"user\"\n        },\n        {\n            \"id\": 9,\n            \"username\": \"miftaa\",\n            \"fullname\": \"Muhammad Miftakul Salam\",\n            \"email\": \"muhammadmiftakul.22101@mhs.unesa.ac.id\",\n            \"role\": \"user\"\n        },\n        {\n            \"id\": 10,\n            \"username\": \"miftaaas\",\n            \"fullname\": \"Muhammad Miftakul Salam\",\n            \"email\": \"miftaaa@gmail.com\",\n            \"role\": \"user\"\n        },\n        {\n            \"id\": 15,\n            \"username\": \"test\",\n            \"fullname\": \"hello world\",\n            \"email\": \"test@mail.com\",\n            \"role\": \"user\"\n        },\n        {\n            \"id\": 11,\n            \"username\": \"miftamuhammad\",\n            \"fullname\": \"Muhammad Miftakul Miftakul\",\n            \"email\": \"emailbaru@mail.com\",\n            \"role\": \"User\"\n        },\n        {\n            \"id\": 21,\n            \"username\": \"shaniindira\",\n            \"fullname\": \"shani indira\",\n            \"email\": \"shani@gmail.com\",\n            \"role\": \"user\"\n        },\n        {\n            \"id\": 22,\n            \"username\": \"aralie\",\n            \"fullname\": \"hello world\",\n            \"email\": \"aralie@mail.com\",\n            \"role\": \"user\"\n        },\n        {\n            \"id\": 23,\n            \"username\": \"erine\",\n            \"fullname\": \"hello world\",\n            \"email\": \"erine@mail.com\",\n            \"role\": \"user\"\n        },\n        {\n            \"id\": 24,\n            \"username\": \"icel\",\n            \"fullname\": \"hello world\",\n            \"email\": \"icel@mail.com\",\n            \"role\": \"user\"\n        }\n    ],\n    \"message\": \"Get all users data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/users/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "users", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "Get User By ID Success - 200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/users/1",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "users", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:26:49 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "176"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"username\": \"Mifta\",\n        \"fullname\": \"Muhammad Miftakul Salam\",\n        \"email\": \"madmifta77@gmail.com\",\n        \"role\": \"admin\"\n    },\n    \"message\": \"Get user data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            },
+            {
+              "name": "User Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/users/1111",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "users", "1111"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:49:08 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "45"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"user not found\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        },
+        {
+          "name": "Edit User",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fullname\": \"Muhammad Miftakul Miftakul\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/users/11",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "users", "11"]
+            }
+          },
+          "response": [
+            {
+              "name": "Update User Success - 200 OK",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"fullname\": \"Muhammad Miftakul Miftakul\",\r\n    \"email\": \"emailbaru@mail.com\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/users/11",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "users", "11"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:27:15 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "188"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 11,\n        \"username\": \"miftamuhammad\",\n        \"fullname\": \"Muhammad Miftakul Miftakul\",\n        \"email\": \"emailbaru@mail.com\",\n        \"role\": \"User\"\n    },\n    \"message\": \"Update user data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            },
+            {
+              "name": "Invalid Email Format - 400 Bad Request",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"fullname\": \"Muhammad Miftakul Miftakul\",\r\n    \"email\": \"emailbarumailcom\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/users/11",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "users", "11"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:27:43 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "65"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"please enter a valid email address\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "User Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"fullname\": \"Muhammad Miftakul Miftakul\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/users/1111",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "users", "1111"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:48:18 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "45"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"user not found\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/users/14",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "users", "14"]
+            }
+          },
+          "response": [
+            {
+              "name": "Delete User Success - 200 OK",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/users/24",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "users", "24"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:28:48 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "159"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 24,\n        \"username\": \"icel\",\n        \"fullname\": \"hello world\",\n        \"email\": \"icel@mail.com\",\n        \"role\": \"user\"\n    },\n    \"message\": \"Delete user data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            },
+            {
+              "name": "User Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/users/1412",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "users", "1412"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:48:53 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "45"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"user not found\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "products"]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Products Success - 200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/products",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:49:42 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "463"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Xiaomi Redmi 12\",\n            \"description\": \"Xiaomi Latest Smartphone\",\n            \"price\": 2100000,\n            \"stock\": 100\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Lenovo Ideapad Slim 1\",\n            \"description\": \"Idepad laptop series\",\n            \"price\": 7000000,\n            \"stock\": 30\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Baseus Encok WM02\",\n            \"description\": \"Baseus TWS\",\n            \"price\": 175000,\n            \"stock\": 80\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Lexar\",\n            \"description\": \"Lexar SSD SATA Enclosure\",\n            \"price\": 280000,\n            \"stock\": 120\n        }\n    ],\n    \"message\": \"Get all products data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Product By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/products/3",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "products", "3"]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Product By ID Success - 200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/products/3",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products", "3"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:50:16 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "172"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"name\": \"Lenovo Ideapad Slim 1\",\n        \"description\": \"Idepad laptop series\",\n        \"price\": 7000000,\n        \"stock\": 30\n    },\n    \"message\": \"Get product data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            },
+            {
+              "name": "Product Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/products/33333",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products", "33333"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:50:45 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "48"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"product not found\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"cuma ngetes\",\r\n    \"description\": \"ini deskripsi produk\",\r\n    \"price\": 99999,\r\n    \"stock\": 99\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "products"]
+            }
+          },
+          "response": [
+            {
+              "name": "Create Product Success - 200 OK",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"cuma ngetes\",\r\n    \"description\": \"ini deskripsi produk\",\r\n    \"price\": 99999,\r\n    \"stock\": 99\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/products",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:51:05 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "163"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 8,\n        \"name\": \"cuma ngetes\",\n        \"description\": \"ini deskripsi produk\",\n        \"price\": 99999,\n        \"stock\": 99\n    },\n    \"message\": \"Create product data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            },
+            {
+              "name": "Invalid Product Stock - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"cuma ngetes\",\r\n    \"description\": \"ini deskripsi produk\",\r\n    \"price\": 99999,\r\n    \"stock\": -99\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/products",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:51:54 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"product stock cannot be negative\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Invalid Product Price - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"cuma ngetes\",\r\n    \"description\": \"ini deskripsi produk\",\r\n    \"price\": -99999,\r\n    \"stock\": 99\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/products",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:53:06 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"product price cannot be negative\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Field Blank - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"cuma ngetes\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/products",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:54:13 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "90"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"product name, description, price, and stock cannot be blank\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        },
+        {
+          "name": "Edit Product",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Lenovo Ideapad Slim 1\",\r\n        \"description\": \"Idepad laptop series\",\r\n        \"price\": 7000000,\r\n        \"stock\": 30\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/products/5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "products", "5"]
+            }
+          },
+          "response": [
+            {
+              "name": "Product Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"ternyata cuma ngetes\",\r\n    \"description\": \"kan ini deskripsi produk\",\r\n    \"price\": 100000,\r\n    \"stock\": 0\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/products/5",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products", "5"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:55:00 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "48"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"product not found\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Edit Product Success - 200 OK",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Lenovo Ideapad Slim 1\",\r\n    \"description\": \"Idepad laptop series\",\r\n    \"price\": 7000000,\r\n    \"stock\": 10\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/products/3",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products", "3"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:56:29 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "175"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"name\": \"Lenovo Ideapad Slim 1\",\n        \"description\": \"Idepad laptop series\",\n        \"price\": 7000000,\n        \"stock\": 10\n    },\n    \"message\": \"Update product data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/products/5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "products", "5"]
+            }
+          },
+          "response": [
+            {
+              "name": "Product Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/products/5",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products", "5"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:56:59 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "48"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"product not found\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Delete Product Success - 200 OK",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/products/7",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "products", "7"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:57:29 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "163"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 7,\n        \"name\": \"Lexar\",\n        \"description\": \"Lexar SSD SATA Enclosure\",\n        \"price\": 280000,\n        \"stock\": 120\n    },\n    \"message\": \"Delete product data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "orders"]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Orders Success - 200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:58:08 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "249"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": 3,\n            \"user_id\": 1,\n            \"product_id\": 1,\n            \"quantity\": 20,\n            \"totalprice\": 42000000,\n            \"status\": \"Paid\"\n        },\n        {\n            \"id\": 4,\n            \"user_id\": 5,\n            \"product_id\": 1,\n            \"quantity\": 24,\n            \"totalprice\": 50400000,\n            \"status\": \"Paid\"\n        }\n    ],\n    \"message\": \"Get all orders data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Order By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/orders/3",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "orders", "3"]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Order By ID Success - 200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders/3",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders", "3"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 06:58:47 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "154"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"user_id\": 1,\n        \"product_id\": 1,\n        \"quantity\": 20,\n        \"totalprice\": 42000000,\n        \"status\": \"Paid\"\n    },\n    \"message\": \"Get order data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            },
+            {
+              "name": "Order Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders/33333",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders", "33333"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:00:04 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "46"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"order not found\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"user_id\": 7,\r\n    \"product_id\": 4,\r\n    \"quantity\": 10,\r\n    \"status\": \"pending\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "orders"]
+            }
+          },
+          "response": [
+            {
+              "name": "Invalid Quantity - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"user_id\": 1,\r\n    \"product_id\": 1,\r\n    \"quantity\": -100,\r\n    \"status\": \"Paid\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:02:49 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "52"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"minimum quantity is 1\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Product Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"user_id\": 1,\r\n    \"product_id\": 1000,\r\n    \"quantity\": 100,\r\n    \"status\": \"Paid\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:03:29 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "48"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"product not found\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "User Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"user_id\": 11111,\r\n    \"product_id\": 1,\r\n    \"quantity\": 100,\r\n    \"status\": \"Paid\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:04:01 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "45"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"user not found\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Create Order Success - 200 OK",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"user_id\": 5,\r\n    \"product_id\": 4,\r\n    \"quantity\": 100\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:05:01 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "161"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 8,\n        \"user_id\": 5,\n        \"product_id\": 4,\n        \"quantity\": 100,\n        \"totalprice\": 17500000,\n        \"status\": \"pending\"\n    },\n    \"message\": \"Create order data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            },
+            {
+              "name": "Missing Quantity - 400 Bad Request - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"user_id\": 1,\r\n    \"product_id\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:08:38 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "55"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"quantity cannot be blank\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Missing User ID or Product ID - 400 Bad Request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"quantity\": 100\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:09:15 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "69"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"user id and product id cannot be blank\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Order",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quantity\": 80,\r\n    \"status\": \"paid\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/orders/5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "orders", "5"]
+            }
+          },
+          "response": [
+            {
+              "name": "Update Order Success - 200 OK",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"quantity\": 80,\r\n    \"status\": \"paid\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders/8",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders", "8"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:10:11 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "159"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 8,\n        \"user_id\": 5,\n        \"product_id\": 4,\n        \"quantity\": 80,\n        \"totalprice\": 14000000,\n        \"status\": \"paid\"\n    },\n    \"message\": \"Update product data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            },
+            {
+              "name": "Order Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"quantity\": 80,\r\n    \"status\": \"paid\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders/88888",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders", "88888"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:10:40 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "46"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"order not found\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Invalid Quantity - 400 Bad Request",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"quantity\": -80,\r\n    \"status\": \"paid\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders/8",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders", "8"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:13:09 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "61"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"quantity cannot be less than 1\",\n    \"statusCode\": 400\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/orders/5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["v1", "orders", "5"]
+            }
+          },
+          "response": [
+            {
+              "name": "Order Not Found - 400 Bad Request",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders/5",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders", "5"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:13:42 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "46"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"order not found\",\n    \"statusCode\": 400\n}"
+            },
+            {
+              "name": "Delete Order Success - 200 OK",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/v1/orders/8",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "8080",
+                  "path": ["v1", "orders", "8"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Nov 2024 07:14:14 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "159"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"id\": 8,\n        \"user_id\": 5,\n        \"product_id\": 4,\n        \"quantity\": 80,\n        \"totalprice\": 14000000,\n        \"status\": \"paid\"\n    },\n    \"message\": \"Delete product data\",\n    \"status\": true,\n    \"statusCode\": 200\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

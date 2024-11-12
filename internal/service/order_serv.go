@@ -101,7 +101,7 @@ func (order_serv *ordersService) UpdateOrder(id int, orderNew entity.OrdersReque
 	// VALIDASI APAKAH ATTRIBUT ORDER SUDAH DI INPUT
 	if orderNew.Quantity != 0 {
 		// VALIDASI UNTUK MENGECEK QUANTITY TIDAK 0
-		if order.Quantity <= 0 {
+		if orderNew.Quantity <= 0 {
 			return entity.Orders{}, errors.New("quantity cannot be less than 1")
 		}
 

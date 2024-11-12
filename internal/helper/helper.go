@@ -2,10 +2,12 @@ package helper
 
 import (
 	"regexp"
+	"time"
 	"unicode"
 
 	"commercium/internal/entity"
 
+	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -76,4 +78,35 @@ func ConvertToResponseType(data interface{}) interface{} {
 	default:
 		return nil
 	}
+}
+
+var secretKey = "pojq09720ef1ko0f1h9iego2010j20240"
+
+func GenerateToken(username string, email string) (string, error) {
+	expirationTime := time.Now().Add(24 * time.Hour)
+	claims := jwt.MapClaims{
+		"username": username,
+		"email":    email,
+		"exp":      expirationTime.Unix(),
+	}
+
+	parseToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	signedToken, err := parseToken.SignedString([]byte(secretKey))
+	if err != nil {
+		return "", err
+	}
+
+	return signedToken, nil
+}
+
+func ComparePass(hashPassword, reqPassword string) bool {
+	hash, pass := []byte(hashPassword), []byte(reqPassword)
+
+	err := bcrypt.CompareHashAndPassword(hash, pass)
+	if err != nil {
+		return false
+	}
+
+	return true
 }

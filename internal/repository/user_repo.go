@@ -10,7 +10,7 @@ import (
 type UsersRepository interface {
 	GetAllUsers() ([]entity.Users, error)
 	GetUserByID(id int) (entity.Users, error)
-	GetUserByUsername(username string) (entity.Users, error)
+	GetUserByEmail(email string) (entity.Users, error)
 	CreateUser(user entity.Users) (entity.Users, error)
 	UpdateUser(user entity.Users) (entity.Users, error)
 	DeleteUser(user entity.Users) (entity.Users, error)
@@ -44,9 +44,9 @@ func (user_repo *usersRepository) GetUserByID(id int) (entity.Users, error) {
 	return user, nil
 }
 
-func (user_repo *usersRepository) GetUserByUsername(username string) (entity.Users, error) {
+func (user_repo *usersRepository) GetUserByEmail(email string) (entity.Users, error) {
 	var user entity.Users
-	err := user_repo.db.First(&user, "username = ?", username).Error
+	err := user_repo.db.First(&user, "email = ?", email).Error
 	if err != nil {
 		return entity.Users{}, errors.New("user not found")
 	}

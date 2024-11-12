@@ -9,8 +9,8 @@ import (
 )
 
 type UsersService interface {
-	Register(user *entity.UsersRequest) (entity.Users, error)
-	Login(user *entity.UsersRequest) (*string, error)
+	Register(user entity.UsersRequest) (entity.Users, error)
+	Login(user entity.UsersRequest) (*string, error)
 	GetAllUsers() ([]entity.Users, error)
 	GetUserByID(id int) (entity.Users, error)
 	GetUserByEmail(email string) (entity.Users, error)
@@ -27,7 +27,7 @@ func NewUsersService(usersRepository repository.UsersRepository) UsersService {
 	return &usersService{usersRepository}
 }
 
-func (user_serv *usersService) Register(user *entity.UsersRequest) (entity.Users, error) {
+func (user_serv *usersService) Register(user entity.UsersRequest) (entity.Users, error) {
 	// VALIDASI APAKAH USERNAME, FULLNAME, EMAIL, PASSWORD KOSONG
 	if user.Username == "" || user.Fullname == "" || user.Email == "" || user.Password == "" {
 		return entity.Users{}, errors.New("username, fullname, email, and password cannot be blank")
@@ -80,12 +80,19 @@ func (user_serv *usersService) Register(user *entity.UsersRequest) (entity.Users
 	return user_serv.userRepository.CreateUser(newUser)
 }
 
-func (user_serv *usersService) Login(user *entity.UsersRequest) (*string, error) {
+func (user_serv *usersService) Login(user entity.UsersRequest) (*string, error) {
+	// VALIDASI APAKAH EMAIL DAN PASSWORD KOSONG
+	if user.Email == "" || user.Password == "" {
+		return nil, errors.New("email and password cannot be blank")
+	}
+
+	// MENGECEK APAKAH USER SUDAH TERDAFTAR
 	userExist, err := user_serv.userRepository.GetUserByEmail(user.Email)
 	if err != nil {
 		return nil, errors.New("user not found")
 	}
 
+	// VALIDASI APAKAH PASSWORD SUDAH SESUAI
 	if !helper.ComparePass(userExist.Password, user.Password) {
 		return nil, errors.New("password is incorrect")
 	}

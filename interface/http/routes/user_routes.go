@@ -15,6 +15,8 @@ func UserRoutes(version *gin.RouterGroup, db *gorm.DB) {
 	User_serv := service.NewUsersService(User_repo)
 	User_handler := handler.NewUsersHandler(User_serv)
 
+	version.POST("register", User_handler.Register)
+	version.POST("login", User_handler.Login)
 	version.GET("users", User_handler.GetAllUsers)
 	version.GET("users/:id", User_handler.GetUserByID)
 	version.POST("users", User_handler.CreateUser)

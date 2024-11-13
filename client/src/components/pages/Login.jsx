@@ -2,8 +2,43 @@ import { MdLock } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import {z} from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+const postFormSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+})
 
 export default function Login() {
+
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+  const { register, handleSubmit, formState } = useForm({
+    resolver: zodResolver(postFormSchema),
+  })
+
+  const onSubmit = handleSubmit(async (data) => {
+    const res = await fetch("http://localhost:8080/v1/auth/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((res) => res.json());
+
+    if (res.status) {
+      navigate("/");
+    } else {
+      setError(res.message);
+    }
+  })
+
   return (
     <div className="min-h-screen bg-[url(/register-bg.png)] flex">
       <div
@@ -28,7 +63,7 @@ export default function Login() {
           </h2>
         </div>
 
-        <form className="w-full mx-auto mt-7 flex flex-col gap-4">
+        <form onSubmit={onSubmit} className="w-full mx-auto mt-7 flex flex-col gap-4">
           <div className="relative w-full font-lora">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
               <svg
@@ -47,9 +82,14 @@ export default function Login() {
               id="email-address"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cust-red focus:border-cust-red active:ring-cust-red active:border-cust-red block w-full ps-10 p-2.5"
               placeholder="Email"
-              name="email-address"
+              {...register("email")}
             />
           </div>
+          {formState.errors.email && (
+            <p className="text-sm text-red-400 font-semibold -mt-4">
+              {formState.errors.email.message}
+            </p>
+          )}
           <div className="relative w-full font-lora">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-500 text-xl -ml-0.5">
               <MdLock />
@@ -59,11 +99,19 @@ export default function Login() {
               id="password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cust-red focus:border-cust-red active:ring-cust-red active:border-cust-red block w-full ps-10 p-2.5"
               placeholder="Kata Sandi"
-              name="password"
+              {...register("password")}
             />
           </div>
+          {formState.errors.password && (
+            <p className="text-sm text-red-400 font-semibold -mt-4">
+              {formState.errors.password.message}
+            </p>
+          )}
+          {error && (
+            <h1 className="text-sm text-red-400 font-semibold">{error}</h1>
+          )}
           <button
-            type="button"
+            type="submit"
             className="text-white font-poppins mt-5 bg-gradient-to-br from-pink-500 via-red-500 to-pink-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800 font-medium rounded-lg px-5 py-2.5 text-center"
           >
             Masuk Sekarang

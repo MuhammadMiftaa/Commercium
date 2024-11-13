@@ -74,7 +74,7 @@ func (user_handler *usersHandler) Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("token", *token, 60*60*24, "/", "localhost", false, true)
+	c.SetCookie("token", *token, 60*60*24, "/", "localhost", true, true)
 
 	c.JSON(http.StatusOK, gin.H{
 		"statusCode": 200,

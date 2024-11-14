@@ -6,8 +6,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Cookies from "js-cookie";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import Unauthorized from "./Unauthorized";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 const postFormSchema = z.object({
   name: z.string(),
@@ -21,12 +22,14 @@ export default function UpdateProduct() {
 
   // Check if user is admin🐳
   const [isAdmin, setIsAdmin] = useState(() => {
-    const {role} = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {role: ""};
+    const { role } = Cookies.get("token")
+      ? jwtDecode(Cookies.get("token"))
+      : { role: "" };
     return role === "admin" ? true : false;
-  })
+  });
 
-  if(!isAdmin) {
-    return <Unauthorized />
+  if (!isAdmin) {
+    return <Unauthorized />;
   }
   // Check if user is admin🐳
 
@@ -97,9 +100,18 @@ export default function UpdateProduct() {
         <Sidebar></Sidebar>
       </aside>
       <main className="ml-72 p-10">
-        <h1 className="text-2xl font-bold pb-2 mb-4 border-b-2">
-          Update Product
-        </h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold pb-2 mb-4 border-b-2">
+            Update Product
+          </h1>
+          <button
+          onClick={() => navigate(-1)}
+            type="button"
+            className="text-red-500 hover:text-white border border-red-500 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg px-3 py-1.5 text-center me-2 mb-2 text-xl"
+          >
+            <MdOutlineKeyboardBackspace />
+          </button>
+        </div>
         <form onSubmit={onSubmit} className="max-w-md">
           <div className="mb-4">
             <label

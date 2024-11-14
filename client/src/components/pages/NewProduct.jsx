@@ -8,6 +8,7 @@ import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import Unauthorized from "./Unauthorized";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 const postFormSchema = z.object({
   name: z.string(),
@@ -19,12 +20,14 @@ const postFormSchema = z.object({
 export default function NewProduct() {
   // Check if user is admin🐳
   const [isAdmin, setIsAdmin] = useState(() => {
-    const {role} = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {role: ""};
+    const { role } = Cookies.get("token")
+      ? jwtDecode(Cookies.get("token"))
+      : { role: "" };
     return role === "admin" ? true : false;
-  })
+  });
 
-  if(!isAdmin) {
-    return <Unauthorized />
+  if (!isAdmin) {
+    return <Unauthorized />;
   }
   // Check if user is admin🐳
 
@@ -44,7 +47,11 @@ export default function NewProduct() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({...data, price: numericPrice, stock: numericStock}),
+      body: JSON.stringify({
+        ...data,
+        price: numericPrice,
+        stock: numericStock,
+      }),
     }).then((res) => res.json());
 
     if (res.status) {
@@ -61,7 +68,18 @@ export default function NewProduct() {
         <Sidebar></Sidebar>
       </aside>
       <main className="ml-72 p-10">
-        <h1 className="text-2xl font-bold pb-2 mb-4 border-b-2">New Product</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold pb-2 mb-4 border-b-2">
+            New Product
+          </h1>
+          <button
+            onClick={() => navigate(-1)}
+            type="button"
+            className="text-red-500 hover:text-white border border-red-500 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg px-3 py-1.5 text-center me-2 mb-2 text-xl"
+          >
+            <MdOutlineKeyboardBackspace />
+          </button>
+        </div>
         <form onSubmit={onSubmit} className="max-w-md">
           <div className="mb-4">
             <label

@@ -40,7 +40,7 @@ export default function Register() {
       body: JSON.stringify(data),
     }).then((res) => res.json());
 
-    if (res.status === 201) {
+    if (res.status) {
       navigate("/auth/login");
     } else {
       setError(res.message);

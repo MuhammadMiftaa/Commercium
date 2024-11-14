@@ -6,7 +6,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
+import Unauthorized from "./Unauthorized";
 
 const postFormSchema = z.object({
   name: z.string(),
@@ -25,7 +26,7 @@ export default function UpdateProduct() {
   })
 
   if(!isAdmin) {
-    return <p>401 | Unauthorized</p>
+    return <Unauthorized />
   }
   // Check if user is admin🐳
 

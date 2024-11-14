@@ -21,7 +21,7 @@ function App() {
         <Route path="product">
           <Route index element={<Product />} />
           <Route path="new" element={<NewProduct />} />
-          <Route path="update" element={<UpdateProduct />} />
+          <Route path="edit/:id" element={<UpdateProduct />} />
         </Route>
         <Route path="order" element={<Order />} />
         <Route path="*" element={<NotFound />} />

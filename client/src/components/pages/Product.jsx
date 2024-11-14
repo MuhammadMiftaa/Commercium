@@ -58,7 +58,16 @@ export default function Product() {
         <Sidebar></Sidebar>
       </aside>
       <main className="ml-72 p-10">
-        <h1 className="text-2xl font-bold my-5">Product Table</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold my-5">Product Table</h1>
+          <button
+            type="button"
+            onClick={() => navigate("/product/new")}
+            class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          >
+            Add Product
+          </button>
+        </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
@@ -98,7 +107,7 @@ export default function Product() {
                     <td className="flex items-center px-6 py-4">
                       <button
                         type="button"
-                        onClick={() => navigate(`/product/${product.id}`)}
+                        onClick={() => navigate(`/product/edit/${product.id}`)}
                         className="font-medium text-blue-600 hover:underline"
                       >
                         Edit

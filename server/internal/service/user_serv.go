@@ -96,7 +96,7 @@ func (user_serv *usersService) Login(user entity.UsersRequest) (*string, error) 
 		return nil, errors.New("password is incorrect")
 	}
 
-	token, err := helper.GenerateToken(userExist.Username, userExist.Email)
+	token, err := helper.GenerateToken(userExist.Username, userExist.Email, userExist.Role)
 	if err != nil {
 		return nil, err
 	}

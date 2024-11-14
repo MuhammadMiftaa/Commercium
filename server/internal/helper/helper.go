@@ -83,11 +83,12 @@ func ConvertToResponseType(data interface{}) interface{} {
 
 var secretKey = "pojq09720ef1ko0f1h9iego2010j20240"
 
-func GenerateToken(username string, email string) (string, error) {
+func GenerateToken(username string, email string, role string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := jwt.MapClaims{
 		"username": username,
 		"email":    email,
+		"role":     role,
 		"exp":      expirationTime.Unix(),
 	}
 
@@ -115,7 +116,6 @@ func VerifyToken(cookie string) (interface{}, error) {
 
 	return token.Claims.(jwt.MapClaims), nil
 }
-
 
 func ComparePass(hashPassword, reqPassword string) bool {
 	hash, pass := []byte(hashPassword), []byte(reqPassword)

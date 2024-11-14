@@ -1,20 +1,56 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../layouts/Sidebar";
 import useSWR from "swr";
+import { useNavigate } from "react-router-dom";
 
 export default function Product() {
+  const navigate = useNavigate();
+
+  // GET request to fetch all products🐳
   const [products, setProducts] = useState([]);
-  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const fetcher = (url, init) => fetch(url, init).then((res) => res.json());
   const { data, isLoading, error } = useSWR(
     "http://localhost:8080/v1/products",
-    fetcher
+    (url) =>
+      fetcher(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      })
   );
+
   useEffect(() => {
-    if (data) {
-      setProducts(data);
+    if (data?.status) {
+      setProducts(data.data);
+    } else {
+      console.log("Error fetching products");
     }
-    console.log(products);
   }, [data]);
+  // GET request to fetch all products🐳
+
+  // DELETE request to delete a product🐳
+  const handleDelete = (id) => {
+    const isConfirm = confirm("Are you sure you want to delete this product?");
+    if (!isConfirm) return;
+    fetch(`http://localhost:8080/v1/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          setProducts(products.filter((product) => product.id !== id));
+        } else {
+          console.log("Error deleting product");
+        }
+      });
+  };
+  // DELETE request to delete a product🐳
 
   return (
     <>
@@ -30,23 +66,8 @@ export default function Product() {
                 <th scope="col" className="px-6 py-3">
                   Product name
                 </th>
-                {/* <th scope="col" className="px-6 py-3">
-                  Color
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Category
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Accessories
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Available
-                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Price
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Weight
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Stock
@@ -54,32 +75,56 @@ export default function Product() {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-white border-b hover:bg-gray-50">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Apple MacBook Pro 17"
-                </th>
-                {/* <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">Yes</td>
-                <td className="px-6 py-4">Yes</td> */}
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">1000</td>
-                <td className="flex items-center px-6 py-4">
-                  <a href="#" className="font-medium text-blue-600 hover:underline">
-                    Edit
-                  </a>
-                  <a
-                    href="#"
-                    className="font-medium text-red-600 hover:underline ms-3"
+              {isLoading ? (
+                <tr>
+                  <td colSpan={4} className="px-6 py-4 text-center">
+                    Loading...
+                  </td>
+                </tr>
+              ) : (
+                products.map((product) => (
+                  <tr
+                    key={product.id}
+                    className="bg-white border-b hover:bg-gray-50"
                   >
-                    Remove
-                  </a>
-                </td>
-              </tr>
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                    >
+                      {product.name}
+                    </th>
+                    <td className="px-6 py-4">{product.price}</td>
+                    <td className="px-6 py-4">{product.stock}</td>
+                    <td className="flex items-center px-6 py-4">
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/product/${product.id}`)}
+                        className="font-medium text-blue-600 hover:underline"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(product.id)}
+                        className="font-medium text-red-600 hover:underline ms-3"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
+            <tfoot>
+              <tr class="font-semibold text-gray-900">
+                <th scope="row" class="px-6 py-3 text-base">
+                  Total Product :
+                </th>
+                <td class="px-6 py-3"></td>
+                <td class="px-6 py-3"></td>
+                <td class="px-6 py-3">{products.length} Products</td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </main>

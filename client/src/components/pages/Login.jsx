@@ -2,7 +2,7 @@ import { MdLock } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import {z} from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
@@ -11,16 +11,15 @@ import { useState } from "react";
 const postFormSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8, "Password must be at least 8 characters"),
-})
+});
 
-export default function Login({handleLogin}) {
-
+export default function Login({ handleLogin }) {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
   const { register, handleSubmit, formState } = useForm({
     resolver: zodResolver(postFormSchema),
-  })
+  });
 
   const onSubmit = handleSubmit(async (data) => {
     const res = await fetch("http://localhost:8080/v1/auth/login", {
@@ -38,7 +37,7 @@ export default function Login({handleLogin}) {
     } else {
       setError(res.message);
     }
-  })
+  });
 
   return (
     <div className="min-h-screen bg-[url(/register-bg.png)] flex">
@@ -46,12 +45,6 @@ export default function Login({handleLogin}) {
         className="relative p-8 items-center flex flex-col rounded-3xl mx-auto my-auto w-fit bg-gradient-to-b from-red-200 to-white via-white to-80% "
         style={{ boxShadow: "0 0 8px #fff" }}
       >
-        <Link
-          to={"/"}
-          className="absolute top-4 right-4 text-gray-500 text-xl"
-        >
-          <IoClose />
-        </Link>
         <div className="text-2xl p-4 rounded-2xl bg-zinc-100 aspect-square shadow-xl">
           <SlLogin />
         </div>
@@ -64,7 +57,10 @@ export default function Login({handleLogin}) {
           </h2>
         </div>
 
-        <form onSubmit={onSubmit} className="w-full mx-auto mt-7 flex flex-col gap-4">
+        <form
+          onSubmit={onSubmit}
+          className="w-full mx-auto mt-7 flex flex-col gap-4"
+        >
           <div className="relative w-full font-lora">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
               <svg

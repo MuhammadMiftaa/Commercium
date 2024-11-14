@@ -2,9 +2,20 @@ import { useEffect, useState } from "react";
 import Sidebar from "../layouts/Sidebar";
 import useSWR from "swr";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 export default function Product() {
   const navigate = useNavigate();
+
+  // Check if user is admin🐳
+  const [isAdmin, setIsAdmin] = useState(() => {
+    const { role } = Cookies.get("token")
+      ? jwtDecode(Cookies.get("token"))
+      : { role: "" };
+    return role === "admin" ? true : false;
+  });
+  // Check if user is admin🐳
 
   // GET request to fetch all products🐳
   const [products, setProducts] = useState([]);
@@ -32,6 +43,10 @@ export default function Product() {
 
   // DELETE request to delete a product🐳
   const handleDelete = (id) => {
+    if (!isAdmin) {
+      alert("You are not authorized to delete this product");
+      return;
+    }
     const isConfirm = confirm("Are you sure you want to delete this product?");
     if (!isConfirm) return;
     fetch(`http://localhost:8080/v1/products/${id}`, {

@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 const postFormSchema = z.object({
   name: z.string(),
@@ -14,6 +16,17 @@ const postFormSchema = z.object({
 });
 
 export default function NewProduct() {
+  // Check if user is admin🐳
+  const [isAdmin, setIsAdmin] = useState(() => {
+    const {role} = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {role: ""};
+    return role === "admin" ? true : false;
+  })
+
+  if(!isAdmin) {
+    return <p>401 | Unauthorized</p>
+  }
+  // Check if user is admin🐳
+
   // CREATE request to create a new product🐳
   const navigate = useNavigate();
   const [error, setError] = useState("");

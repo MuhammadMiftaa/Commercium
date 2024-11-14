@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
 const postFormSchema = z.object({
   name: z.string(),
@@ -15,6 +17,17 @@ const postFormSchema = z.object({
 
 export default function UpdateProduct() {
   const { id } = useParams();
+
+  // Check if user is admin🐳
+  const [isAdmin, setIsAdmin] = useState(() => {
+    const {role} = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {role: ""};
+    return role === "admin" ? true : false;
+  })
+
+  if(!isAdmin) {
+    return <p>401 | Unauthorized</p>
+  }
+  // Check if user is admin🐳
 
   // UPDATE request to update a product🐳
   const navigate = useNavigate();

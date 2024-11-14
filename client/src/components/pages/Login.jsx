@@ -13,7 +13,7 @@ const postFormSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
 })
 
-export default function Login() {
+export default function Login({handleLogin}) {
 
   const [error, setError] = useState("");
 
@@ -33,6 +33,7 @@ export default function Login() {
     }).then((res) => res.json());
 
     if (res.status) {
+      handleLogin();
       navigate("/");
     } else {
       setError(res.message);

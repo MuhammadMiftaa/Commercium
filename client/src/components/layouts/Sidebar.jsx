@@ -4,8 +4,14 @@ import { FaHome } from "react-icons/fa";
 import { AiFillProduct } from "react-icons/ai";
 import { HiNewspaper } from "react-icons/hi";
 import { FaSignOutAlt } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 export default function Sidebar() {
+  const handleLogout = () => {
+    Cookies.remove("token");
+    window.location.href = "/auth/login";
+  }
+
   return (
     <nav className='bg-[#0e1111] text-[#FEFFEC] fixed top-0 bottom-0 left-0 w-72 p-10 font-serif'>
         <div className='flex justify-between items-center'>
@@ -19,7 +25,7 @@ export default function Sidebar() {
         </ul>
         <hr />
         <ul className='flex flex-col text-xl mt-4 gap-2'>
-            <li className='flex gap-1 items-center text-red-400 ml-3'><FaSignOutAlt /><Link to={"/"}>Logout</Link></li>
+            <li className='flex gap-1 items-center text-red-400 ml-3'><FaSignOutAlt /><button onClick={handleLogout} type='button'>Logout</button></li>
         </ul>
     </nav>
   )

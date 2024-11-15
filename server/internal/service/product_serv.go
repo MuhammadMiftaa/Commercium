@@ -42,8 +42,8 @@ func (product_serv *productsService) GetProductByName(value string) ([]entity.Pr
 
 func (product_serv *productsService) CreateProduct(productRequest entity.ProductsRequest) (entity.Products, error) {
 	// VALIDASI APAKAH PRODUCT NAME, DESCRIPTION, PRICE, STOCK KOSONG
-	if productRequest.Name == "" || productRequest.Description == "" || productRequest.Price == 0 || productRequest.Stock == nil {
-		return entity.Products{}, errors.New("product name, description, price, and stock cannot be blank")
+	if productRequest.Name == "" || productRequest.Description == "" || productRequest.Price == 0 || productRequest.Stock == nil || productRequest.Category == "" {
+		return entity.Products{}, errors.New("product name, description, price, stock, and category cannot be blank")
 	}
 
 	// VALIDASI APAKAH PRODUCT PRICE TIDAK NEGATIF
@@ -61,6 +61,7 @@ func (product_serv *productsService) CreateProduct(productRequest entity.Product
 		Description: productRequest.Description,
 		Price:       productRequest.Price,
 		Stock:       *productRequest.Stock,
+		Category:  productRequest.Category,
 	}
 
 	return product_serv.productsRepository.CreateProduct(product)
@@ -73,8 +74,8 @@ func (product_serv *productsService) UpdateProduct(id int, productNew entity.Pro
 	}
 
 	// VALIDASI APAKAH PRODUCT NAME, DESCRIPTION, PRICE, STOCK KOSONG
-	if productNew.Name == "" || productNew.Description == "" || productNew.Price == 0 || productNew.Stock == nil {
-		return entity.Products{}, errors.New("product name, description, price, and stock cannot be blank")
+	if productNew.Name == "" || productNew.Description == "" || productNew.Price == 0 || productNew.Stock == nil || productNew.Category == "" {
+		return entity.Products{}, errors.New("product name, description, price, stock, and category cannot be blank")
 	}
 
 	// VALIDASI APAKAH PRODUCT PRICE TIDAK NEGATIF
@@ -100,6 +101,9 @@ func (product_serv *productsService) UpdateProduct(id int, productNew entity.Pro
 	if productNew.Stock != nil {
 		product.Stock = *productNew.Stock
 	}
+	if productNew.Category != "" {
+		product.Category = productNew.Category
+	}
 
 	return product_serv.productsRepository.UpdateProduct(product)
 }
@@ -112,3 +116,4 @@ func (product_serv *productsService) DeleteProduct(id int) (entity.Products, err
 
 	return product_serv.productsRepository.DeleteProduct(product)
 }
+

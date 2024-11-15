@@ -66,6 +66,7 @@ func ConvertToResponseType(data interface{}) interface{} {
 			Description: v.Description,
 			Price:       v.Price,
 			Stock:       v.Stock,
+			Category:    v.Category,
 		}
 	case entity.Orders:
 		return entity.OrdersResponse{

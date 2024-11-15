@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../layouts/Sidebar";
 import useSWR from "swr";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { FaCircleChevronLeft } from "react-icons/fa6";
+import { FaCircleChevronRight } from "react-icons/fa6";
 
 export default function Product() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
 
   // Check if user is admin🐳
   const [isAdmin, setIsAdmin] = useState(() => {
@@ -95,9 +99,7 @@ export default function Product() {
                 <th scope="col" className="px-6 py-3">
                   Stock
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  
-                </th>
+                <th scope="col" className="px-6 py-3"></th>
               </tr>
             </thead>
             <tbody>
@@ -108,38 +110,47 @@ export default function Product() {
                   </td>
                 </tr>
               ) : (
-                products.map((product) => (
-                  <tr
-                    key={product.id}
-                    className="bg-white border-b hover:bg-gray-50"
-                  >
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                    >
-                      {product.name}
-                    </th>
-                    <td className="px-6 py-4 capitalize">{product.category}</td>
-                    <td className="px-6 py-4">{product.price}</td>
-                    <td className="px-6 py-4">{product.stock}</td>
-                    <td className="flex items-center px-6 py-4">
-                      <button
-                        type="button"
-                        onClick={() => navigate(`/product/edit/${product.id}`)}
-                        className="font-medium text-blue-600 hover:underline"
+                products.map((product, index) => {
+                  return (
+                    index >= (page - 1) * 10 &&
+                    index <= page * 10 - 1 && (
+                      <tr
+                        key={product.id}
+                        className="bg-white border-b hover:bg-gray-50"
                       >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(product.id)}
-                        className="font-medium text-red-600 hover:underline ms-3"
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                        >
+                          {product.name}
+                        </th>
+                        <td className="px-6 py-4 capitalize">
+                          {product.category}
+                        </td>
+                        <td className="px-6 py-4">{product.price}</td>
+                        <td className="px-6 py-4">{product.stock}</td>
+                        <td className="flex items-center px-6 py-4">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              navigate(`/product/edit/${product.id}`)
+                            }
+                            className="font-medium text-blue-600 hover:underline"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(product.id)}
+                            className="font-medium text-red-600 hover:underline ms-3"
+                          >
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                  );
+                })
               )}
             </tbody>
             <tfoot>
@@ -150,6 +161,28 @@ export default function Product() {
                 <td className="px-6 py-3"></td>
                 <td className="px-6 py-3"></td>
                 <td className="px-6 py-3">{products.length} Products</td>
+                <td className="px-6 py-3 flex text-xl justify-between">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const prevPage = page === 1 ? Math.ceil(products.length / 10) : page - 1;
+                      setPage(prevPage);
+                      navigate(`/product?page=${prevPage}`);
+                    }}
+                  >
+                    <FaCircleChevronLeft />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextPage = page === Math.ceil(products.length / 10) ? 1 : page + 1;
+                      setPage(nextPage);
+                      navigate(`/product?page=${nextPage}`);
+                    }}
+                  >
+                    <FaCircleChevronRight />
+                  </button>
+                </td>
               </tr>
             </tfoot>
           </table>

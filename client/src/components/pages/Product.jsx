@@ -87,10 +87,16 @@ export default function Product() {
                   Product name
                 </th>
                 <th scope="col" className="px-6 py-3">
+                  Category
+                </th>
+                <th scope="col" className="px-6 py-3">
                   Price
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Stock
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  
                 </th>
               </tr>
             </thead>
@@ -113,6 +119,7 @@ export default function Product() {
                     >
                       {product.name}
                     </th>
+                    <td className="px-6 py-4 capitalize">{product.category}</td>
                     <td className="px-6 py-4">{product.price}</td>
                     <td className="px-6 py-4">{product.stock}</td>
                     <td className="flex items-center px-6 py-4">

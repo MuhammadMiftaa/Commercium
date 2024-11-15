@@ -12,6 +12,7 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 const postFormSchema = z.object({
   name: z.string(),
+  category: z.string(),
   price: z.string(),
   stock: z.string(),
   description: z.string(),
@@ -82,6 +83,7 @@ export default function UpdateProduct() {
   useEffect(() => {
     if (data?.status) {
       setValue("name", data.data.name);
+      setValue("category", data.data.category);
       const stringPrice = String(data.data.price);
       const stringStock = String(data.data.stock);
       setValue("price", stringPrice);
@@ -130,6 +132,28 @@ export default function UpdateProduct() {
             {formState.errors.name && (
               <span className="text-red-400 text-sm">
                 {formState.errors.name.message}
+              </span>
+            )}
+          </div>
+          <div className="w-full mb-4">
+            <label
+              htmlFor="category"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Category
+            </label>
+            <input
+              type="text"
+              id="category"
+              aria-describedby="helper-text-explanation"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Laptop"
+              required
+              {...register("category")}
+            />
+            {formState.errors.category && (
+              <span className="text-red-400 text-sm">
+                {formState.errors.category.message}
               </span>
             )}
           </div>

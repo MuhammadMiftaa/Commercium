@@ -13,7 +13,7 @@ export default function Product() {
     const { role } = Cookies.get("token")
       ? jwtDecode(Cookies.get("token"))
       : { role: "" };
-    return role === "admin" ? true : false;
+    return role === "admin";
   });
   // Check if user is admin🐳
 
@@ -33,11 +33,7 @@ export default function Product() {
   );
 
   useEffect(() => {
-    if (data?.status) {
-      setProducts(data.data);
-    } else {
-      console.log("Error fetching products");
-    }
+    if (data?.status) setProducts(data.data);
   }, [data]);
   // GET request to fetch all products🐳
 
@@ -78,7 +74,7 @@ export default function Product() {
           <button
             type="button"
             onClick={() => navigate("/product/new")}
-            class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
             Add Product
           </button>
@@ -140,13 +136,13 @@ export default function Product() {
               )}
             </tbody>
             <tfoot>
-              <tr class="font-semibold text-gray-900">
-                <th scope="row" class="px-6 py-3 text-base">
+              <tr className="font-semibold text-gray-900">
+                <th scope="row" className="px-6 py-3 text-base">
                   Total Product :
                 </th>
-                <td class="px-6 py-3"></td>
-                <td class="px-6 py-3"></td>
-                <td class="px-6 py-3">{products.length} Products</td>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3">{products.length} Products</td>
               </tr>
             </tfoot>
           </table>

@@ -1,8 +1,7 @@
 import { MdLock } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
-import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { set, z } from "zod";
+import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -138,9 +137,6 @@ export default function Register() {
               <MdLock />
             </div>
             <input
-              onChange={(e) =>
-                setPassword({ ...password, password: e.target.value })
-              }
               type="password"
               id="password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cust-red focus:border-cust-red active:ring-cust-red active:border-cust-red block w-full ps-10 p-2.5"

@@ -26,9 +26,8 @@ export default function NewProduct() {
     return role === "admin" ? true : false;
   });
 
-  if (!isAdmin) {
-    return <Unauthorized />;
-  }
+  if (!isAdmin) return <Unauthorized />;
+
   // Check if user is admin🐳
 
   // CREATE request to create a new product🐳

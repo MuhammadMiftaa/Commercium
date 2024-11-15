@@ -1,6 +1,5 @@
 import { MdLock } from "react-icons/md";
 import { SlLogin } from "react-icons/sl";
-import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";

@@ -28,9 +28,8 @@ export default function UpdateProduct() {
     return role === "admin" ? true : false;
   });
 
-  if (!isAdmin) {
-    return <Unauthorized />;
-  }
+  if (!isAdmin) return <Unauthorized />;
+
   // Check if user is admin🐳
 
   // UPDATE request to update a product🐳
@@ -105,7 +104,7 @@ export default function UpdateProduct() {
             Update Product
           </h1>
           <button
-          onClick={() => navigate(-1)}
+            onClick={() => navigate(-1)}
             type="button"
             className="text-red-500 hover:text-white border border-red-500 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg px-3 py-1.5 text-center me-2 mb-2 text-xl"
           >
@@ -208,7 +207,7 @@ export default function UpdateProduct() {
             type="submit"
             className="mt-8 w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 "
           >
-            Add Product
+            Update Product
           </button>
         </form>
       </main>

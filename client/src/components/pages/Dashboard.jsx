@@ -7,13 +7,11 @@ import { useState } from "react";
 
 export default function Dashboard() {
   // GET user role and username from cookies🐳
-  const [role, setRole] = useState(() => {
-    return jwtDecode(Cookies.get("token")).role;
-  });
 
-  const [username, setUsername] = useState(() => {
-    return jwtDecode(Cookies.get("token")).username;
-  });
+  const token = Cookies.get("token");
+  const decodedToken = token ? jwtDecode(token) : {};
+  const [role, setRole] = useState(decodedToken.role || "");
+  const [username, setUsername] = useState(decodedToken.username || "");
 
   // GET user role and username from cookies🐳
   return (

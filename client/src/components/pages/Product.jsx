@@ -41,6 +41,24 @@ export default function Product() {
   }, [data]);
   // GET request to fetch all products🐳
 
+  // Sort and Order🐳
+  const [sort, setSort] = useState(searchParams.get("sort") || "");
+  const [order, setOrder] = useState(searchParams.get("order") || "");
+  useEffect(() => {
+    if (sort !== "" && order !== "") {
+      const paramsObject = Object.fromEntries(searchParams.entries());
+      setSearchParams({ ...paramsObject, sort, order });
+      const productSorted = [...products].sort((a, b) => {
+        if (typeof a[sort] === "string") {
+          return a[sort].localeCompare(b[sort]);
+        }
+        return a[sort] - b[sort];
+      });
+      setProducts(order === "asc" ? productSorted : productSorted.reverse());
+    }
+  }, [sort, order]);
+  // Sort and Order🐳
+
   // DELETE request to delete a product🐳
   const handleDelete = (id) => {
     if (!isAdmin) {
@@ -85,21 +103,99 @@ export default function Product() {
         </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  Product name
+                  <div className="flex items-center">
+                    Product name
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSort("name");
+                        setOrder(order === "asc" ? "desc" : "asc");
+                      }}
+                    >
+                      <svg
+                        className="w-3 h-3 ms-1.5"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
+                      </svg>
+                    </button>
+                  </div>
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Category
+                  <div className="flex items-center">
+                    Category
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSort("category");
+                        setOrder(order === "asc" ? "desc" : "asc");
+                      }}
+                    >
+                      <svg
+                        className="w-3 h-3 ms-1.5"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
+                      </svg>
+                    </button>
+                  </div>
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Price
+                  <div className="flex items-center">
+                    Price
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSort("price");
+                        setOrder(order === "asc" ? "desc" : "asc");
+                      }}
+                    >
+                      <svg
+                        className="w-3 h-3 ms-1.5"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
+                      </svg>
+                    </button>
+                  </div>
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Stock
+                  <div className="flex items-center">
+                    Stock
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSort("stock");
+                        setOrder(order === "asc" ? "desc" : "asc");
+                      }}
+                    >
+                      <svg
+                        className="w-3 h-3 ms-1.5"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
+                      </svg>
+                    </button>
+                  </div>
                 </th>
-                <th scope="col" className="px-6 py-3"></th>
+                <th scope="col" className="px-6 py-3">
+                  <span className="sr-only">Edit</span>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -158,31 +254,49 @@ export default function Product() {
                 <th scope="row" className="px-6 py-3 text-base">
                   Total Product :
                 </th>
-                <td className="px-6 py-3"></td>
-                <td className="px-6 py-3"></td>
                 <td className="px-6 py-3">{products.length} Products</td>
-                <td className="px-6 py-3 flex text-xl justify-between">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const prevPage = page === 1 ? Math.ceil(products.length / 10) : page - 1;
-                      setPage(prevPage);
-                      navigate(`/product?page=${prevPage}`);
-                    }}
-                  >
-                    <FaCircleChevronLeft />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const nextPage = page === Math.ceil(products.length / 10) ? 1 : page + 1;
-                      setPage(nextPage);
-                      navigate(`/product?page=${nextPage}`);
-                    }}
-                  >
-                    <FaCircleChevronRight />
-                  </button>
-                </td>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3"></td>
+                {products.length > 10 && (
+                  <td className="px-6 py-3 flex text-xl justify-between">
+                    <button
+                      type="button"
+                      // SETTING THE PAGE NUMBER🦺
+                      onClick={() => {
+                        const prevPage =
+                          page === 1
+                            ? Math.ceil(products.length / 10)
+                            : page - 1;
+                        setPage(prevPage);
+                        const paramsObject = Object.fromEntries(
+                          searchParams.entries()
+                        );
+                        setSearchParams({ ...paramsObject, page: prevPage });
+                      }}
+                      // SETTING THE PAGE NUMBER🦺
+                    >
+                      <FaCircleChevronLeft />
+                    </button>
+                    <button
+                      type="button"
+                      // SETTING THE PAGE NUMBER🦺
+                      onClick={() => {
+                        const nextPage =
+                          page === Math.ceil(products.length / 10)
+                            ? 1
+                            : page + 1;
+                        setPage(nextPage);
+                        const paramsObject = Object.fromEntries(
+                          searchParams.entries()
+                        );
+                        setSearchParams({ ...paramsObject, page: nextPage });
+                        // SETTING THE PAGE NUMBER🦺
+                      }}
+                    >
+                      <FaCircleChevronRight />
+                    </button>
+                  </td>
+                )}
               </tr>
             </tfoot>
           </table>

@@ -106,7 +106,7 @@ export default function UpdateProduct() {
             Update Product
           </h1>
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/product")}
             type="button"
             className="text-red-500 hover:text-white border border-red-500 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg px-3 py-1.5 text-center me-2 mb-2 text-xl"
           >

@@ -26,7 +26,7 @@ func NewProductsRepository(db *gorm.DB) ProductsRepository {
 
 func (product_repo *productsRepository) GetAllProducts() ([]entity.Products, error) {
 	var products []entity.Products
-	err := product_repo.db.Find(&products).Error
+	err := product_repo.db.Order("name ASC").Find(&products).Error
 	if err != nil {
 		return nil, errors.New("failed to get products")
 	}

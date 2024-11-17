@@ -23,5 +23,6 @@ func OrderRoutes(version *gin.RouterGroup, db *gorm.DB) {
 	version.GET("orders/:id", Order_handler.GetOrderByID)
 	version.POST("orders", Order_handler.CreateOrder)
 	version.PUT("orders/:id", Order_handler.UpdateOrder)
+	version.PUT("orders/:id/paid", Order_handler.PaidOrder)
 	version.DELETE("orders/:id", Order_handler.DeleteOrder)
 }

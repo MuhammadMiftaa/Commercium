@@ -41,7 +41,7 @@ func (order_handler *ordersHandler) GetAllOrders(c *gin.Context) {
 		"statusCode": 200,
 		"status":     true,
 		"message":    "Get all orders data",
-		"data":       ordersResponse,
+		"data":       orders,
 	})
 }
 
@@ -135,6 +135,31 @@ func (order_handler *ordersHandler) UpdateOrder(c *gin.Context) {
 		"statusCode": 200,
 		"status":     true,
 		"message":    "Update product data",
+		"data":       orderResponse,
+	})
+}
+
+func (order_handler *ordersHandler) PaidOrder(c *gin.Context) {
+	id := c.Param("id")
+	idINT, _ := strconv.Atoi(id)
+
+	product, err := order_handler.ordersService.PaidOrder(idINT)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"statusCode": 400,
+			"status":     false,
+			"message":    err.Error(),
+		})
+		return
+	}
+
+	// MENGUBAH TIPE ENITITY KE TIPE RESPONSE
+	orderResponse := helper.ConvertToResponseType(product)
+
+	c.JSON(http.StatusOK, gin.H{
+		"statusCode": 200,
+		"status":     true,
+		"message":    "Paid product data",
 		"data":       orderResponse,
 	})
 }

@@ -9,11 +9,12 @@ import (
 )
 
 type OrdersService interface {
-	GetAllOrders() ([]entity.Orders, error)
+	GetAllOrders() ([]entity.OrderDetail, error)
 	GetOrderByID(id int) (entity.Orders, error)
 	GetOrderByDate(from, to time.Time) ([]entity.Orders, error)
 	CreateOrder(order entity.OrdersRequest) (entity.Orders, error)
 	UpdateOrder(id int, orderNew entity.OrdersRequest) (entity.Orders, error)
+	PaidOrder(id int) (entity.Orders, error)
 	DeleteOrder(id int) (entity.Orders, error)
 }
 
@@ -31,7 +32,7 @@ func NewOrdersService(ordersRepo repository.OrdersRepository, usersRepo reposito
 	}
 }
 
-func (order_serv *ordersService) GetAllOrders() ([]entity.Orders, error) {
+func (order_serv *ordersService) GetAllOrders() ([]entity.OrderDetail, error) {
 	return order_serv.ordersRepository.GetAllOrders()
 }
 
@@ -120,6 +121,17 @@ func (order_serv *ordersService) UpdateOrder(id int, orderNew entity.OrdersReque
 	}
 
 	return order_serv.ordersRepository.UpdateOrder(order)
+}
+
+func (order_serv *ordersService) PaidOrder(id int) (entity.Orders, error) {
+	order, err := order_serv.ordersRepository.GetOrderByID(id)
+	if err != nil {
+		return entity.Orders{}, errors.New("order not found")
+	}
+
+	order.Status = "paid"
+
+	return order_serv.ordersRepository.PaidOrder(order)
 }
 
 func (order_serv *ordersService) DeleteOrder(id int) (entity.Orders, error) {

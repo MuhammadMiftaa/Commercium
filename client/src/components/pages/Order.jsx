@@ -35,6 +35,7 @@ export default function Order() {
   }, [data]);
   // GET request to fetch all products🐳
 
+  // PUT request to update order status🐳
   const [errorMessage, setErrorMessage] = useState(null);
   const handlePaidOrder = (id) => {
     fetch(`http://localhost:8080/v1/orders/${id}/paid`, {
@@ -65,6 +66,19 @@ export default function Order() {
     if (errorMessage) alert(errorMessage);
     setErrorMessage(null);
   }, [errorMessage]);
+  // PUT request to update order status🐳
+
+  // Search order by customer name🐳
+  const [search, setSearch] = useState("");
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  useEffect(() => {
+    setFilteredOrders(orders);
+    const filteredOrders = orders.filter((order) =>
+      order.customer_name.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredOrders(filteredOrders);
+  }, [search, orders]);
+  // Search order by customer name🐳
 
   return (
     <>
@@ -72,7 +86,45 @@ export default function Order() {
         <Sidebar></Sidebar>
       </aside>
       <main className="ml-72 p-10">
-        <h1 className="text-4xl font-bold mb-10">Order List</h1>
+        <div className="flex justify-between items-center mb-10">
+          <h1 className="text-4xl font-bold">Order List</h1>
+
+          <div className="w-64">
+            <label
+              htmlFor="default-search"
+              className="mb-2 text-sm font-medium text-gray-900 sr-only"
+            >
+              Search
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                onChange={(e) => setSearch(e.target.value)}
+                type="search"
+                id="default-search"
+                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-2xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Search by Customer Name"
+                required
+              />
+            </div>
+          </div>
+        </div>
         <div className="relative">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-100">
@@ -112,7 +164,7 @@ export default function Order() {
                   </td>
                 </tr>
               ) : (
-                orders.map((order) => (
+                filteredOrders.map((order) => (
                   <tr className="bg-white" key={order.id}>
                     <th
                       scope="row"

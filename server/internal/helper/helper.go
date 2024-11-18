@@ -58,6 +58,8 @@ func ConvertToResponseType(data interface{}) interface{} {
 			Fullname: v.Fullname,
 			Email:    v.Email,
 			Role:     v.Role,
+			Income:   v.Income,
+			Outcome:  v.Outcome,
 		}
 	case entity.Products:
 		return entity.ProductsResponse{

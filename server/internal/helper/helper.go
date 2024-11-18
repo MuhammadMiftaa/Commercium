@@ -124,9 +124,5 @@ func ComparePass(hashPassword, reqPassword string) bool {
 	hash, pass := []byte(hashPassword), []byte(reqPassword)
 
 	err := bcrypt.CompareHashAndPassword(hash, pass)
-	if err != nil {
-		return false
-	}
-
-	return true
+	return err == nil
 }

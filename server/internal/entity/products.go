@@ -8,7 +8,7 @@ type Products struct {
 	gorm.Model
 	Name        string  `gorm:"type:varchar(100);not null"`
 	Description string  `gorm:"type:varchar(255);not null"`
-	Price       float64 `gorm:"type:decimal(10,2);not null"`
+	Price       float64 `gorm:"type:decimal(15,2);not null"`
 	Stock       int     `gorm:"not null"`
 	Category    string  `gorm:"type:varchar(100);not null"`
 }

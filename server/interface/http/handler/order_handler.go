@@ -143,7 +143,7 @@ func (order_handler *ordersHandler) PaidOrder(c *gin.Context) {
 	id := c.Param("id")
 	idINT, _ := strconv.Atoi(id)
 
-	product, err := order_handler.ordersService.PaidOrder(idINT)
+	order, err := order_handler.ordersService.PaidOrder(idINT)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"statusCode": 400,
@@ -154,7 +154,7 @@ func (order_handler *ordersHandler) PaidOrder(c *gin.Context) {
 	}
 
 	// MENGUBAH TIPE ENITITY KE TIPE RESPONSE
-	orderResponse := helper.ConvertToResponseType(product)
+	orderResponse := helper.ConvertToResponseType(order)
 
 	c.JSON(http.StatusOK, gin.H{
 		"statusCode": 200,

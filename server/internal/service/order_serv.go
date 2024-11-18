@@ -124,14 +124,11 @@ func (order_serv *ordersService) UpdateOrder(id int, orderNew entity.OrdersReque
 }
 
 func (order_serv *ordersService) PaidOrder(id int) (entity.Orders, error) {
-	order, err := order_serv.ordersRepository.GetOrderByID(id)
+	order, err := order_serv.GetOrderByID(id)
 	if err != nil {
-		return entity.Orders{}, errors.New("order not found")
+		return entity.Orders{}, err
 	}
-
-	order.Status = "paid"
-
-	return order_serv.ordersRepository.PaidOrder(order)
+	return order_serv.ordersRepository.PaidOrder(id, order.UserID, order.ProductID)
 }
 
 func (order_serv *ordersService) DeleteOrder(id int) (entity.Orders, error) {

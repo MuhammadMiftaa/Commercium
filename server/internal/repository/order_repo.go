@@ -15,7 +15,7 @@ type OrdersRepository interface {
 	GetOrderByDate(from, to time.Time) ([]entity.Orders, error)
 	CreateOrder(order entity.Orders) (entity.Orders, error)
 	UpdateOrder(order entity.Orders) (entity.Orders, error)
-	PaidOrder(order entity.Orders) (entity.Orders, error)
+	PaidOrder(id int, user_id int, product_id int) (entity.Orders, error)
 	DeleteOrder(order entity.Orders) (entity.Orders, error)
 }
 
@@ -23,7 +23,7 @@ type ordersRepository struct {
 	db *gorm.DB
 }
 
-func NewOrdersRepository(db *gorm.DB) OrdersRepository {
+func NewOrdersRepository(db *gorm.DB) *ordersRepository {
 	return &ordersRepository{db}
 }
 
@@ -81,14 +81,95 @@ func (order_repo *ordersRepository) UpdateOrder(order entity.Orders) (entity.Ord
 	return order, nil
 }
 
-func (order_repo *ordersRepository) PaidOrder(order entity.Orders) (entity.Orders, error) {
-	err := order_repo.db.Save(&order).Error
-	if err != nil {
-		return entity.Orders{}, errors.New("failed to update order")
-	}
+func (order_repo *ordersRepository) PaidOrder(id int, user_id int, product_id int) (entity.Orders, error) {
+    // Mulai transaksi
+    tx := order_repo.db.Begin()
+    if tx.Error != nil {
+        return entity.Orders{}, errors.New("failed to begin transaction")
+    }
 
-	return order, nil
+    defer func() {
+        if r := recover(); r != nil {
+            tx.Rollback() // Rollback jika terjadi panic
+        }
+    }()
+
+    var order entity.Orders
+    var product entity.Products
+    var user entity.Users
+    var admin entity.Users
+
+    // Logika bisnis
+    if err := tx.First(&order, id).Error; err != nil {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("order not found")
+    }
+
+    if err := tx.First(&product, product_id).Error; err != nil {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("product not found")
+    }
+
+    if err := tx.First(&user, user_id).Error; err != nil {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("user not found")
+    }
+
+    if err := tx.Where("role = ?", "admin").First(&admin).Error; err != nil {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("admin not found")
+    }
+
+    if order.Status == "paid" {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("order already paid")
+    }
+
+    if order.Quantity > product.Stock {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("insufficient stock")
+    }
+
+    if user.Role == "admin" {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("admin cannot make a payment")
+    }
+
+    // Update data
+    product.Stock -= order.Quantity
+    admin.Income += order.TotalPrice
+    user.Outcome += order.TotalPrice
+    order.Status = "paid"
+
+    // Simpan data
+    if err := tx.Save(&product).Error; err != nil {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("failed to update product")
+    }
+
+    if err := tx.Save(&admin).Error; err != nil {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("failed to update admin")
+    }
+
+    if err := tx.Save(&user).Error; err != nil {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("failed to update user")
+    }
+
+    if err := tx.Save(&order).Error; err != nil {
+        tx.Rollback()
+        return entity.Orders{}, errors.New("failed to update order")
+    }
+
+    // Commit transaksi
+    if err := tx.Commit().Error; err != nil {
+        return entity.Orders{}, errors.New("failed to commit transaction")
+    }
+
+    return order, nil
 }
+
 
 func (order_repo *ordersRepository) DeleteOrder(order entity.Orders) (entity.Orders, error) {
 	err := order_repo.db.Delete(&order).Error

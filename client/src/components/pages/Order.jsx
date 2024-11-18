@@ -3,6 +3,7 @@ import Sidebar from "../layouts/Sidebar";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import useSWR from "swr";
+import { FaCheck } from "react-icons/fa6";
 
 export default function Order() {
   // Check if user is admin🐳
@@ -34,6 +35,37 @@ export default function Order() {
   }, [data]);
   // GET request to fetch all products🐳
 
+  const [errorMessage, setErrorMessage] = useState(null);
+  const handlePaidOrder = (id) => {
+    fetch(`http://localhost:8080/v1/orders/${id}/paid`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          const updatedOrders = orders.map((order) =>
+            order.id === id ? { ...order, status: "paid" } : order
+          );
+          setOrders(updatedOrders);
+          alert("Success paid order");
+        } else {
+          setErrorMessage(data.message);
+        }
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      });
+  };
+
+  useEffect(() => {
+    if (errorMessage) alert(errorMessage);
+    setErrorMessage(null);
+  }, [errorMessage]);
+
   return (
     <>
       <aside>
@@ -63,9 +95,13 @@ export default function Order() {
                 <th scope="col" className="px-6 py-3 text-center">
                   Total Price
                 </th>
-                <th scope="col" className="px-6 py-3 rounded-e-lg">
+                <th scope="col" className="px-6 py-3 text-center">
                   Status
                 </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-center rounded-e-lg"
+                ></th>
               </tr>
             </thead>
             <tbody>
@@ -99,8 +135,28 @@ export default function Order() {
                     <td className="px-6 py-4 whitespace-nowrap text-zinc-800">
                       {formatRupiah(order.total_price)}
                     </td>
-                    <td className={`px-6 py-4 whitespace-nowrap text-zinc-800 text-center uppercase font-bold ${formatStatus(order.status)}`}>
+                    <td
+                      className={`px-6 py-4 whitespace-nowrap text-zinc-800 text-center uppercase font-bold ${formatStatus(
+                        order.status
+                      )}`}
+                    >
                       {order.status}
+                    </td>
+                    <td>
+                      {isAdmin && (
+                        <button
+                          disabled={order.status === "paid"}
+                          onClick={() => handlePaidOrder(order.id)}
+                          type="button"
+                          className={`px-4 py-2 ${
+                            order.status === "pending"
+                              ? "bg-blue-500 active:bg-blue-800"
+                              : "bg-zinc-500"
+                          } text-white rounded-md`}
+                        >
+                          <FaCheck />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -114,10 +170,10 @@ export default function Order() {
 }
 
 const formatRupiah = (value) => {
-  return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
   }).format(value);
 };
 
@@ -132,4 +188,4 @@ const formatStatus = (status) => {
     default:
       return "text-gray-500";
   }
-}
+};
